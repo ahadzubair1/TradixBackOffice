@@ -1,0 +1,118 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = localizer["Bonuses"];
+    ViewData["Caption"] = localizer[""];
+}
+<div class="card w-masterhead network-bg">
+    <div class="row align-items-center p-5 text-white">
+        <div class="col d-md-flex align-items-center" style="gap: 20px;">
+            <img src="/images/teamwork.gif" width="120" class="img-fluid mr-4 img-circle">
+            <h4>Network Bonus: </h4>
+            <h1>0</h1>
+        </div>
+    </div>
+</div>
+<div class="card mt-4">
+    @*  <div class="col-sm-12" style="padding:20px">
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Transactions.Create)).Result.Succeeded)
+    {
+    <a onclick="jQueryModalGet('/app/transaction/OnGetCreateOrEdit','Create Brand')" class="btn bg-success">
+    <i class="fa fa-plus-square"></i> Create
+    </a>
+    }
+    </div> *@
+
+    <div class="card card-tabs tree-tabs card-primary">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="ref-bonus-tab-1" data-toggle="pill" href="#ref-bonus-tab" role="tab" aria-controls="ref-bonus-tab" aria-selected="false">Direct Bonus</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="net-bonus-tab-1" data-toggle="pill" href="#net-bonus-tab" role="tab" aria-controls="net-bonus-tab" aria-selected="true">Network Bonus</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="grid-bonus-tab-1" data-toggle="pill" href="#grid-bonus-tab" role="tab" aria-controls="grid-bonus-tab" aria-selected="false">Grid Bonus <span class="upcoming">Upcoming</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-two-tabContent">
+                <div class="tab-pane fade show active" id="ref-bonus-tab" role="tabpanel" aria-labelledby="ref-bonus-tab-1">
+                    @* <div id="viewAll" class="card-body table-responsive"></div> *@
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Username</th>
+                                    <th>Subscription</th>
+                                    <th>Position</th>
+                                    <th>Total Earned</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>09-02-2024 | 12:33:56</td>
+                                    <td>user_123</td>
+                                    <td>None</td>
+                                    <td>Left</td>
+                                    <td>$0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="net-bonus-tab" role="tabpanel" aria-labelledby="net-bonus-tab-1">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Username</th>
+                                    <th>Subscription</th>
+                                    <th>Position</th>
+                                    <th>Total Earned</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>09-02-2024 | 12:33:56</td>
+                                    <td>user_123</td>
+                                    <td>None</td>
+                                    <td>Left</td>
+                                    <td>$0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="grid-bonus-tab" role="tabpanel" aria-labelledby="grid-bonus-tab-1">
+                    <div class="no-data d-flex align-items-center justify-content-center flex-column">
+                        <img src="/images/nodata.gif" width="100">
+                        Nothing Found...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#bonusesTable").DataTable();
+            loadData();
+            $('#reload').on('click', function () {
+                loadData();
+            });
+        });
+        function loadData() {
+            $('#viewAll').load('/account/bonuses/LoadAll');
+        }
+    </script>
+}

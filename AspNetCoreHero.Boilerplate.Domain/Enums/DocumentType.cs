@@ -1,0 +1,21 @@
+﻿public enum DocumentType
+{
+    NationalID,
+    Corporate,
+    ProofOfResidence,
+    CorporateCertificate,
+    FATCA,
+    Signature,
+    AddressProof,
+    DrivingLicense,
+    IslamicReligion,
+    General,
+    Trading,
+    Other,
+    ProofOfIdentity,
+    BrokerAgreement,
+    Compliance,
+    Photo,
+    Video,
+    Passport
+}

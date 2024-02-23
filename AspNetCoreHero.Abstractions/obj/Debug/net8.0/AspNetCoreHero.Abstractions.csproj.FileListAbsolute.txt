@@ -1,0 +1,14 @@
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\bin\Debug\net8.0\AspNetCoreHero.Abstractions.deps.json
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\bin\Debug\net8.0\AspNetCoreHero.Abstractions.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\bin\Debug\net8.0\AspNetCoreHero.Abstractions.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\bin\Debug\net8.0\AspNetCoreHero.Abstractions.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.csproj.AssemblyReference.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.AssemblyInfoInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.AssemblyInfo.cs
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.csproj.CoreCompileInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\refint\AspNetCoreHero.Abstractions.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\AspNetCoreHero.Abstractions.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Abstractions\obj\Debug\net8.0\ref\AspNetCoreHero.Abstractions.dll

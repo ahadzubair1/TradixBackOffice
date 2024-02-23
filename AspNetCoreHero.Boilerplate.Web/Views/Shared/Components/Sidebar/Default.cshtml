@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+<aside id="sideBar" class="main-sidebar sidebar-dark-primary">
+    <a href="/" class="brand-link clearfix">
+        @* <img src="~/images/logo-transparent.png" id="brand-logo" alt="logo" class="brand-image img-circle"
+        style="opacity: .8"> *@
+        <div class="logo-wrap pr-4">
+            <img src="~/images/logo-v-dark.png" alt="logo" class="brand-image w-100">
+        </div>
+        <div class="float-right d-none d-sm-inline">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="darkSwitch">
+                <label class="custom-control-label" style="font-weight:400" for="darkSwitch">
+                    <i class="fas fa-solid fa-moon" style="position:relative;top:3px;"></i>
+                </label>
+            </div>
+        </div>
+    </a>
+    <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            @localizer["Dashboard"]
+                            @* <span class="right badge badge-danger">@localizer["New"]</span> *@
+                        </p>
+                    </a>
+                </li>
+                @if (User.IsInRole("SuperAdmin"))
+                {
+                    @* <li class="nav-header">@localizer["Admin"]</li> *@
+                    <li class="nav-item">
+                        <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
+                            <i class="fas fa-user"></i>
+                            <p>@localizer["Users"]</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a is-active-route asp-area="Admin" asp-controller="Role" class="nav-link">
+                            <i class="fas fa-user-tag"></i>
+                            <p>@localizer["Roles"]</p>
+                        </a>
+                    </li>
+                }
+
+                @* <li class="nav-header">@localizer["Account"]</li> *@
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Subscriptions" class="nav-link">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>@localizer["Spot License"]</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Networks" class="nav-link">
+                        <i class="fas fa-network-wired"></i>
+                        <p>@localizer["Community"]</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Bonuses" class="nav-link">
+                        <i class="fas fa-layer-group"></i>
+                        <p>@localizer["Bonuses"]</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Wallets" class="nav-link">
+                        <i class="fas fa-solid fa-wallet"></i>
+                        <p>@localizer["Wallet"]</p>
+                    </a>
+                    @* <a asp-area="Account" asp-controller="" onclick="event.preventDefault();" class="nav-link">
+                    <i class="fas fa-solid fa-wallet"></i>
+                    <p>@localizer["Digital Purse"]</p>
+                    </a>
+                    <span class="upcoming">Upcoming</span> *@
+                </li>
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Transactions" class="nav-link">
+                        <i class="fas fa-coins"></i>
+                        <p>@localizer["Transactions"]</p>
+                    </a>
+                    @* <a asp-area="Account" asp-controller="" onclick="event.preventDefault();" class="nav-link">
+                    <i class="fas fa-coins"></i>
+                    <p>@localizer["Transactions"]</p>
+                    </a> *@
+                </li>
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Ranks" class="nav-link">
+                        <i class="fas fa-coins"></i>
+                        <p>@localizer["Ranks"]</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a is-active-route asp-area="Account" asp-controller="Support" class="nav-link">
+                        <i class="fas fa-ticket-alt"></i>
+                        <p>@localizer["Support"]</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a is-active-route asp-area="App" asp-controller="Downloads" class="nav-link">
+                        <i class="fas fa-solid fa-download"></i>
+                        <p>@localizer["Media Centre"]</p>
+                    </a>
+                    @*  <a asp-area="App" asp-controller="" onclick="event.preventDefault();" class="nav-link">
+                    <i class="fas fa-solid fa-download"></i>
+                    <p>@localizer["Media Centre"]</p>
+                    </a>
+                    <span class="upcoming">Upcoming</span> *@
+                </li>
+
+                @* <li class="nav-header">@localizer["Master"]</li> *@
+                @* <li is-active-route asp-area="Utilities" class="nav-item has-treeview">
+                <a is-active-route asp-area="Utilities" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                @localizer["Utlities"]
+                <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                <a is-active-route class="nav-link">
+                <i class="far fa-file-archive nav-icon"></i>
+                <p>@localizer["Document"]</p>
+                </a>
+                </li>
+                </ul>
+                </li> *@
+                @* <li is-active-route asp-area="App" class="nav-item has-treeview">
+                <a is-active-route asp-area="App" class="nav-link">
+                <i class="nav-icon fas fa-archive"></i>
+                <p>
+                @localizer["App"]
+                <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                <a is-active-route asp-area="App" asp-controller="Product" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>@localizer["Product"]</p>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a is-active-route asp-area="App" asp-controller="Brand" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>@localizer["Brand"]</p>
+                </a>
+                </li>
+                </ul>
+                </li> *@
+            </ul>
+            <hr class="grad" />
+            <div class="app-promo text-white-50 text-center p-2">
+                <p class="m-0 small">
+                    ICONX proudly announces an exclusive marketing partnership with Mining Race
+                </p>
+                <label class="small">Download Mining Race App</label>
+                <div class="qr-codes">
+                    <a href="https://apps.apple.com/ae/app/the-mining-race/id6451437219" target="_blank">
+                        <img src="~/images/qr-apple.png" width="80" />
+                        <img src="~/images/appstore.png" class="img-fluid" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.mrace.app.android&pli=1" target="_blank">
+                        <img src="~/images/qr-google.png" width="80" />
+                        <img src="~/images/playstore.png" class="img-fluid" />
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</aside>

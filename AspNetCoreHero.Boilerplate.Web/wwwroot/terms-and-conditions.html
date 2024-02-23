@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ICONX - Terms & Conditions - Coming Soon</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HTML5 Example Page">
+  <link rel="stylesheet" href="/assets/css/stylesheet.css?v=1">
+  <style type="text/css">
+    {
+  margin: 0;
+  padding:5;
+  box-sizing: border-box;
+}
+
+body {
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  min-height:100vh;
+  flex-direction: row;
+  background: #000000;
+  padding:5;
+  font-family: sans-serif;
+  background-image: url(graphic2.png);
+  background-size: cover;
+  background-position: center;
+}
+@media (max-width: 1000px){
+  body{
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.cs-heading{
+  font-size: 50px;
+  color: #fff;
+  text-align: center;
+}
+a{
+  position: relative;
+  display: inline-block;
+  padding: 25px 30px;
+  margin: 40px 30px;
+  color: #03E9F4;
+  font-size: 24px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.5s;
+  letter-spacing: 4px;
+  -webkit-box-reflect: below 1px linear-gradient( transparent, #0005);
+}
+a:nth-child(3)
+{
+  filter: hue-rotate(290deg);
+}
+
+a span {
+  position: absolute;
+  display: block;
+}
+a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,transparent,#03E9F4);
+  animation: animate1 1s linear infinite;
+}
+@keyframes animate1 {
+ 0%
+  {
+    left: -100%;
+  }
+  50%, 100%
+  {
+    left: 100%;
+  }
+}
+a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg,transparent,#03E9F4);
+  animation: animate2 1s linear infinite;
+  animation-deelay: 0.25s;
+}
+
+@keyframes animate2 {
+ 0%
+  {
+    top: -100%;
+  }
+  50%, 100%
+  {
+     top: 100%;
+  }
+}
+a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg,transparent,#03E9F4);
+  animation: animate3 1s linear infinite;
+  animation-delay: 0.25s;
+}
+@keyframes animate3 {
+ 0%
+  {
+    right: -100%;
+  }
+  50%, 100%
+  {
+    right: 100%;
+  }
+}
+a span:nth-child(4) {
+  bottom: -100%;
+  left: 0%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg,transparent,#03E9F4);
+  animation: animate4 1s linear infinite;
+  animation-delay: 0.75s;
+}
+
+@keyframes animate4 {
+ 0%
+  {
+    bottom: -100%;
+  }
+  50%, 100%
+  {
+    bottom: 100%;
+  }
+}Ï
+  </style>
+</head>
+<body>
+  <a href="#">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <img src="logo.png" width="200" />
+  </a>
+  <h1 class="cs-heading">On the Horizon <br>
+Stay Tuned</h1>
+</body>
+</html>

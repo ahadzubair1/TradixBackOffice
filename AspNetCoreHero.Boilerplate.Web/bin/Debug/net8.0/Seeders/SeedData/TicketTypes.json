@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "Complain",
+    "Code": "TC",
+    "Description": "Complain Ticket"
+  },
+  {
+    "Name": "Feedback",
+    "Code": "TF",
+    "Description": "Feedback Ticket"
+  },
+  {
+    "Name": "Others",
+    "Code": "TO",
+    "Description": "Others Ticket"
+  },
+  {
+    "Name": "Query",
+    "Code": "TQ",
+    "Description": "Query Ticket"
+  },
+  {
+    "Name": "Request",
+    "Code": "TR",
+    "Description": "Request Ticket"
+  }
+]

@@ -1,0 +1,132 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = localizer["Wallet"];
+    ViewData["Caption"] = localizer[""];
+}
+@*  <div class="col-sm-12" style="padding:20px">
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Transactions.Create)).Result.Succeeded)
+    {
+    <a onclick="jQueryModalGet('/app/transaction/OnGetCreateOrEdit','Create Brand')" class="btn bg-success">
+    <i class="fa fa-plus-square"></i> Create
+    </a>
+    }
+    </div> *@
+<div class="card w-masterhead wallet-page">
+    <div class="row align-items-center p-5 text-white">
+        <div class="col d-md-flex align-items-center" style="gap: 20px;">
+            <img src="/images/ewallet.gif" width="120" class="img-fluid mr-4 img-circle">
+            <h4 class="text-nowrap m-0">Wallet Balance: </h4>
+            <h1 class="m-0">0.00</h1> <span>USDT <img src="~/images/usdt.png" alt="USDT" width="30" /></span>
+            <button class="btn btn-default">Transfer</button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Withdraw</h3>
+    </div>
+    <div class="card-body">
+        <form id="withdraw-form" method="post" novalidate="novalidate">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <label for="input_amnt" class="w-100">Amount (USDT)</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-solid fa-dollar-sign"></i></span>
+                        </div>
+                        <input type="number" id="input_amnt" class="form-control" placeholder="Amount to Withdraw">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <label for="input_amnt" class="w-100">Wallet Address</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-solid fa-wallet"></i></span>
+                        </div>
+                        <input type="text" id="input_amnt" class="form-control" placeholder="Wallet Address">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <label for="input_fee" class="w-100">Fee (USDT)</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-solid fa-dollar-sign"></i></span>
+                        </div>
+                        <input type="text" id="input_fee" disabled class="form-control" placeholder="Fee">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <label for="input_receivable" class="w-100">Receivable Amount (USDT)</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-solid fa-dollar-sign"></i></span>
+                        </div>
+                        <input type="text" id="input_receivable" disabled class="form-control" placeholder="0">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <label for="input_otp" class="w-100">OTP</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-regular fa-envelope"></i></span>
+                        </div>
+                        <input type="text" id="input_otp" class="form-control" placeholder="Enter OTP">
+                        <button type="submit" class="btn btn-primary ml-3">Withdraw</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        @* <div id="viewAll" class="card-body table-responsive"></div> *@
+
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Wallet History</h3>
+    </div>
+
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Wallet Code</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Remaining Balance</th>
+                    <th>Transaction Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>18/02/2024 | 12:00 PM</td>
+                    <td>VBWLT_0032</td>
+                    <td>0</td>
+                    <td><span class="badge bg-success">Successful</span></td>
+                    <td>0</td>
+                    <td>Deposit</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    </>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#walletsTable").DataTable();
+            loadData();
+            $('#reload').on('click', function () {
+                loadData();
+            });
+        });
+        function loadData() {
+            $('#viewAll').load('/account/wallets/LoadAll');
+        }
+    </script>
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "Network Bonus",
+    "Code": "NB",
+    "Description": "This is Network Bonus",
+    "Percentage": 10,
+    "WeeklyCap": 35000
+  },
+  {
+    "Name": "Direct Referral Bonus",
+    "Code": "DRB",
+    "Description": "This is Direct Referral Bonus",
+    "Percentage": 10,
+    "WeeklyCap": 35000
+  }
+]

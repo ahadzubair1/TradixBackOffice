@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\AspNetCoreHero.Boilerplate.Web.props" />
+</Project>

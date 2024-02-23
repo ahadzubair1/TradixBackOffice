@@ -1,0 +1,862 @@
+﻿@page
+@using AspNetCoreHero.Boilerplate.Web.Views.Shared.Components.Culture;
+@using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IHtmlLocalizer<SharedResource> localizer
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewData["Title"]</title>
+    <partial name="_Styles" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body class="h-100">
+    <nav id="navigationBar" class="main-header navbar navbar-expand navbar-light forlogin" style="margin:0 !important">
+        <ul class="navbar-nav" style=" margin-inline-start: auto; ">
+            <li class="nav-item dropdown no-arrow">
+                @(await Component.InvokeAsync<CultureViewComponent>())
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="darkSwitch">
+                <label class="custom-control-label" style="font-weight:400" for="darkSwitch">@localizer["Dark Mode"]</label>
+            </div>
+        </ul>
+    </nav>
+    <div class="content-wrapper mrl-zero h-100" id="contentWrapper">
+
+        <div class="card login-card o-hidden h-100 border-0">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row h-100 m-0">
+                    <div class="col-lg-6 p-0 d-none d-lg-block">
+                        <video id="video-background" autoplay muted loop>
+                            <source src="/images/loginbg.mp4"
+                                    type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center flex-column justify-content-center overflow-hidden forlogin login-bg">
+                        <!-- Background Animation -->
+                        <ul class="particles">
+                            <span style="--i: 11"></span>
+                            <span style="--i: 12"></span>
+                            <span style="--i: 13"></span>
+                            <span style="--i: 14"></span>
+                            <span style="--i: 15"></span>
+                            <span style="--i: 16"></span>
+                            <span style="--i: 17"></span>
+                            <span style="--i: 18"></span>
+                            <span style="--i: 19"></span>
+                            <span style="--i: 20"></span>
+                            <span style="--i: 21"></span>
+                            <span style="--i: 11"></span>
+                            <span style="--i: 12"></span>
+                            <span style="--i: 13"></span>
+                            <span style="--i: 14"></span>
+                            <span style="--i: 15"></span>
+                            <span style="--i: 16"></span>
+                            <span style="--i: 17"></span>
+                            <span style="--i: 18"></span>
+                            <span style="--i: 19"></span>
+                            <span style="--i: 20"></span>
+                            <span style="--i: 21"></span>
+                            <span style="--i: 11"></span>
+                            <span style="--i: 12"></span>
+                            <span style="--i: 13"></span>
+                            <span style="--i: 14"></span>
+                            <span style="--i: 15"></span>
+                            <span style="--i: 16"></span>
+                            <span style="--i: 17"></span>
+                            <span style="--i: 18"></span>
+                            <span style="--i: 19"></span>
+                            <span style="--i: 20"></span>
+                            <span style="--i: 21"></span>
+                        </ul>
+                        <div class="text-center pt-4 position-relative">
+                            <img src="/images/logo-v-vertical.png" height="100" />
+                            @* <img src="/images/logo-v-vertical.png" class="for-light" height="100" /> *@
+                            @* <img src="/images/logo-v-vertical.svg" class="for-dark d-none" width="120" /> *@
+                        </div>
+                        <div class="w-75 position-relative">
+                            <h1 class="h4 text-gray-900">@localizer["Register"]</h1>
+                            <form class="user" asp-route-returnUrl="@Model.ReturnUrl" method="post" onsubmit="return validateForm();">
+                                <small><div asp-validation-summary="All" class="text-danger"></div></small>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input asp-for="Input.FirstName" type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="@localizer["First Name"]">
+                                        <small><span asp-validation-for="Input.FirstName" class="text-danger"></span></small>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input asp-for="Input.LastName" type="text" class="form-control form-control-user" id="exampleLastName" placeholder="@localizer["Last Name"]">
+                                        <small><span asp-validation-for="Input.LastName" class="text-danger"></span></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input asp-for="Input.Username" type="text" class="form-control form-control-user" id="exampleInputUsername" placeholder="@localizer["Username"]">
+                                    <small><span asp-validation-for="Input.Username" class="text-danger"></span></small>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.Referral" type="text" class="form-control form-control-user" id="exampleInputReferral" placeholder="@localizer["Referral"]">
+                                    <small><span asp-validation-for="Input.Referral" class="text-danger"></span></small>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control select2bs4" id="CountryId" asp-for="Input.CountryId" asp-items="@Model.Countries">
+                                        <option value="">Select a Country</option>
+                                    </select>
+                                    <span asp-validation-for="Input.CountryId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.Email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="@localizer["Email Address"]">
+                                    <small><span asp-validation-for="Input.Email" class="text-danger"></span></small>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input asp-for="Input.Password" autocomplete="off" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="@localizer["Password"]">
+                                        <small><span asp-validation-for="Input.Password" class="text-danger"></span></small>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input asp-for="Input.ConfirmPassword" autocomplete="off" type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="@localizer["Repeat Password"]">
+                                        <small><span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span></small>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @* <div class="g-recaptcha" data-sitekey="6Ld3LzUpAAAAAPu_RzK3Q25qOBe9PbARvWQIuEjr"></div> *@
+                                    <div class="g-recaptcha" data-sitekey="@Model.CaptchaSiteKey"></div>
+                                </div>
+
+
+
+
+
+                                @*                                 <div class="form-group">
+                                <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#promoterAgreement">
+                                <input class="custom-control-input" type="checkbox" id="customCheckbox2" value="option2">
+                                <label for="customCheckbox2" class="custom-control-label">I Agree to Promoter Agreement</label>
+
+                                </div>
+                                </div> *@
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#promoterAgreement">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox2" value="option2">
+                                        <label for="customCheckbox2" class="custom-control-label">I Agree to Promoter Agreement</label>
+                                    </div>
+                                    <small><span id="customCheckbox2Error" class="text-danger"></span></small>
+                                </div>
+                                <script>
+                                    function validateForm() {
+                                        var checkbox2 = $("#customCheckbox2");
+                                        var checkbox1 = $("#customCheckbox1");
+                                        var checkbox3 = $("#customCheckbox3");
+
+                                        var checkbox2Error = $("#customCheckbox2Error");
+                                        var checkbox1Error = $("#customCheckbox1Error");
+                                        var checkbox3Error = $("#customCheckbox3Error");
+
+                                        // Check if the checkbox is checked
+                                        if (!checkbox2.prop("checked") || !checkbox1.prop("checked") || !checkbox3.prop("checked")) {
+                                            // Display validation error message
+                                            if (!checkbox2.prop("checked"))
+                                            checkbox2Error.text("Please agree to the Promoter Agreement.");
+                                            else
+                                                checkbox2Error.text("");
+
+
+                                            if (!checkbox1.prop("checked"))
+                                            checkbox1Error.text("Please agree to the Privacy Agrement.");
+                                            else
+                                                checkbox1Error.text("");
+
+                                            if (!checkbox3.prop("checked"))
+                                            checkbox3Error.text("Please agree to Terms & Conditions.");
+                                            else
+                                                checkbox3Error.text("");
+
+
+                                            return false; // Prevent form submission
+                                        } else {
+                                         checkbox3Error.text("");
+                                         checkbox2Error.text("");
+                                         checkbox1Error.text("");
+                                            return true; // Allow form submission
+                                        }
+
+                                        
+                                    }
+                                </script>
+  @*                               <div class="form-group">
+                                    <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#privacyPolicy">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
+                                        <label for="customCheckbox1" class="custom-control-label">I Agree to Privacy Policy</label>
+                                    </div>
+                                </div> *@
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#privacyPolicy">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option2">
+                                        <label for="customCheckbox1" class="custom-control-label">I Agree to Privacy Agreement</label>
+                                    </div>
+                                    <small><span id="customCheckbox1Error" class="text-danger"></span></small>
+                                </div>
+@*                                 <div class="form-group">
+                                    <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#termsConditions">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox3" value="option3">
+                                        <label for="customCheckbox3" class="custom-control-label">I Agree to Terms & Conditions</label>
+                                    </div>
+                                </div> *@
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox small" data-toggle="modal" data-target="#termsConditions">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox3" value="option3">
+                                        <label for="customCheckbox3" class="custom-control-label">I Agree to Terms & Conditions</label>
+                                    </div>
+                                    <small><span id="customCheckbox3Error" class="text-danger"></span></small>
+                                </div>
+                                @*                                 onclick="validateForm()" *@
+                                <button type="submit" class="btn btn-primary btn-user btn-block">@localizer["Register Account"]</button>
+
+                                @*                                 <button type="submit" class="btn btn-primary btn-user btn-block">
+                                @localizer["Register Account"]
+                                </button> *@
+                            </form>                            <script type="text/javascript" language=javascript>
+                                $.validator.unobtrusive.parse(document);
+                            </script>
+                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                <a class="small" asp-area="Identity" asp-page="/account/forgotpassword"> @localizer["Forgot Password?"]</a>
+                                <a class="small" asp-area="Identity" asp-page="/account/login"> @localizer["Already have an account? Login!"]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="privacyPolicy" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="privacyPolicyLabel">ICONX Privacy Policy</h6>
+                </div>
+                <div class="modal-body">
+                    <h3>ICONX Privacy Policy</h3>
+                    <p>Updated and Effective: 13/02/2024</p>
+                    <p>Please find herein below the Privacy Policy of ICONX platform (hereinafter called &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;ICONX&rdquo;).</p>
+                    <p>We understand that your privacy is important and we are strongly committed to protecting it and the Personal Data or information that you may provide when you access and use the content we own or operate on the websites located at www.iconx.com or any other websites, app, pages, features, or content we own or operate (hereafter: the &ldquo;Site(s)&rdquo;) and/or when you use our mobile application and related services (referred to collectively hereinafter as &ldquo;Services&rdquo;).</p>
+                    <p>In addition, information that you may submit to ICONX in response to an email request for information or other outreach from ICONX, or through any ICONX application processes, will also be treated in accordance with this Privacy Policy.</p>
+                    <p>In this written Privacy Policy, ICONX describes the use of your Personal Data by ICONX and the scope and breadth of our commitment to privacy. We undertake to ensure that your Personal Data is handled responsibly and in compliance with the legal requirement of the United Arab Emirates&rsquo; Data Protection Law. Furthermore, we ensure compliance with the EU General Data Protection Regulation 2016/679.</p>
+                    <h2>Acceptance of the ICONX Privacy Policy</h2>
+                    <p>By exploring and using ICONX&rsquo;s Site and/or Services, and by submitting information to ICONX, you signify acceptance to the terms of our Privacy Policy.</p>
+                    <p>Where we require your consent to process your Personal Data, we will ask for your consent to the collection, use, and disclosure of your Personal Data as described further below.</p>
+                    <p>ICONX may provide additional disclosures or additional information about the data collection, use, and sharing practices of specific Services, as and when necessary.</p>
+                    <p>If you do not agree with any aspect of this Privacy Policy, you may immediately discontinue access or use of our Services.</p>
+                    <h2>Personal Data</h2>
+                    <p>Personal Data is data that can be used to identify you directly or indirectly, or to contact you. Our Privacy Policy covers all Personal Data that you voluntarily submit to us and that we obtain from our partners. This Privacy Policy does not apply to anonymized data, as it cannot be used to identify you.</p>
+                    <p>You may be asked to provide Personal Data any time you are in contact with us in order for us to provide the Services.</p>
+                    <p>ICONX may also combine your Personal Data with other information to provide and improve our products, services, and content (please see the section below).</p>
+                    <p>Except as described in this Privacy Policy, ICONX will not give, sell, rent, or loan any Personal Data to any third party.</p>
+                    <ol>
+                        <li><strong>Personal Data We Collect<br /> </strong>We collect personal data you provide directly to us or which you generate when you open an account with us, use our Services, or our website(s) and platform(s).<br /> When we require certain personal data from users it is because we are required by law to collect this data (anti-fraud / anti-money laundering / counter financing of terrorism / know your customer obligations) or it is relevant for specified purposes. Any information you provide to us that is not required is voluntary.<br /> <br /> You are free to choose whether to provide us with the types of Personal Data requested, but we may not be able to serve you as effectively or offer you all of our Services when you do choose not to share certain information with us. However, we shall strive to provide you with the best possible Services always.<br /> We also collect Personal Data when you use or request information about our Services, subscribe to marketing communications, request support, complete surveys, or sign up for one of our events.<br /> We may also collect Personal Data from you offline, such as when you attend one of our events, or when you contact customer support.<br /> We may use this information in combination with other information we collect about you as set forth in this Privacy Policy.<br /> </li>
+                        <li>
+                            <strong>Data Collection When Registering/Using Our Services<br /> </strong>Personal Identification Information: Full name, date of birth, age, nationality, gender, signature, utility bills, photographs, phone number, home address, and/or email.
+                            <ul>
+                                <li>Account Identification Information: Username, password, and account settings and preferences.</li>
+                                <li>Formal Identification Information: Tax ID number, passport number, driver&rsquo;s license details, national identity card details, photograph identification cards, and/or resident permit (visa) information.</li>
+                                <li>Financial Information: Bank account information, payment card primary account number (PAN), credit/debit card details, transaction history, trading data, and/or tax identification.</li>
+                                <li>Transaction Information: Information about the transactions you make on our Services, such as the name of the recipient, your name, the amount, and/or timestamp.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>We may also collect Personal Data from third-party partners and public sources as required or permitted by applicable law, such as public databases, credit bureaus, ID verification partners, resellers and channel partners, joint marketing partners, and social media platforms which include:</p>
+                    <ul>
+                        <li>Financial information</li>
+                        <li>Reputational information</li>
+                        <li>Corporate/business activities for corporate customers</li>
+                    </ul>
+                    <p>We may use public databases and ID verification partners to verify your identity. Indeed, ID verification partners use a combination of government records and publicly available information about you to verify your identity. Such information includes your name, address, job position, public employment profile, credit history, status on any sanctions lists maintained by public authorities, and other relevant data. We obtain such information to comply with our legal obligations, such as anti-money laundering laws.<br /> In some cases, we may process additional data about you to ensure our Services are not used fraudulently or for other illicit activities. In such instances, processing is necessary for us to continue to fulfil our contract with you and others.<br /> </p>
+                    <ol start="3">
+                        <li>
+                            <strong>Data Collection When Visiting Our Website<br /> </strong>When visiting our website, we store every instance of access in a log file and therefore, the following Data are stored in this process:
+                            <ul>
+                                <li>Computer or mobile device information;</li>
+                                <li>Website from which our domain is accessed and website usage information;</li>
+                                <li>Operating system of your computer;</li>
+                                <li>Country from which our website is accessed;</li>
+                                <li>Name of your Internet provider;</li>
+                                <li>Name and URL of the Data accessed;</li>
+                                <li>Date and time of access; AND</li>
+                                <li>IP address of the accessing computer.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>This Data is generally anonymized with no personal reference and only used to establish a connection with the website, to ensure ongoing system security and stability, and for statistical purposes. It is not associated or stored with Personal Data.<br /> The IP address of the accessing computers will be analyzed only in the event of an attack on the network infrastructure or in case of suspicion of otherwise unauthorized or improper use of the website and for the sole purposes of defense or use as part of criminal proceedings for identification purposes and for criminal and/or civil proceedings against the user involved. The IP address is also used to filter out geographical zones from accessing our Services.</p>
+                    <h2>How your Personal Data is used</h2>
+                    <p>Our primary purpose in collecting personal information is to provide you with a secure, smooth, efficient, and customized experience. In general, we use personal information to create, develop, operate, deliver, and improve our Services, content, and advertising, and for loss prevention and anti-fraud purposes. We may use this information in the following ways:</p>
+                    <ol>
+                        <li><strong>To Maintain Legal and Regulatory Compliance</strong><br /> Some of our Services are subject to laws and regulations requiring us to collect and use your personal identification information, formal identification information, financial information, transaction information, employment information, online identifiers, and/or usage data in certain ways.<br /> We must identify and verify customers using our Services in order to comply with anti-money laundering and terrorist financing laws across jurisdictions or as may be more specifically required by the UAE&rsquo;s Anti-Money Laundering Regulations. In addition, we may use third parties to verify your identity by comparing the personal information you provided against third-party databases and public records.<br /> We may require you to provide additional information which we may use in collaboration with service providers acting on our behalf to verify your identity or address, and/or to manage risk as required under applicable law. If you do not want to have your personal information processed for such purposes, then we shall terminate your account as we cannot perform the Services in accordance with legal and regulatory requirements.<br /> </li>
+                        <li><strong>To Enforce Our Terms in Our User Agreement and Other Agreements</strong><br /> We handle sensitive information, such as your identification and financial data, so it is very important for us and our customers that we are actively monitoring, investigating, preventing, and mitigating any potentially prohibited or illegal activities, enforcing our agreements with third parties, and/or violations of our posted user agreement or agreement for other Services. In addition, we may need to collect fees based on your use of our Services. We collect information about your account usage and closely monitor your interactions with our Services. We may use any of your personal information collected on our Services for these purposes. The consequence of not processing your personal information for such purposes is the termination of your account as we cannot provide our Services in accordance with our terms.<br /> </li>
+                        <li><strong>To Provide ICONX Services<br /> </strong>We may receive and share your data with our partners and service providers when it is necessary and relevant to the services you have requested. Information we share with and receive from service providers includes, but is not limited to, your name, email address, address, phone number, geolocation data, employment information, demographic information, electronic network activity information, account information, financial information, credit card or other payment information, background check information, hosting application information, information contained in any lease or purchase agreement you are negotiating or entering into and related transaction information, photo identification, reference letters, bank statements, GCI, income tax returns, or address of a hosting you intend to have, other information we request from you that is required by law, or any other information you provide to us or our service provider. <br /> When we share your data with our service provider, we ensure that they adhere to the same high standards of privacy and security that we maintain.<br /> </li>
+                        <li><strong>To Provide Service Communications</strong><br /> We send administrative or account-related information to you to keep you updated about our Services, inform you of relevant security issues or updates, or provide other transaction-related information. Without such communication, you may not be aware of important developments relating to your account that may affect how you can use our Services. You may inform us about the same in the event you do not wish to avail such<br /> </li>
+                        <li><strong>To Provide Customer Service</strong><br /> We process your personal information when you contact us to resolve any question, dispute, collected fees, or to troubleshoot problems. We may process your information in response to another customer&rsquo;s request, as relevant. Without processing your personal information for such purposes, we cannot respond to your requests and ensure your uninterrupted use of the Services. You may inform us about the same in the event you do not wish to avail such<br /> </li>
+                        <li><strong>To Ensure Quality Control</strong><br /> We process your personal information for quality control and staff training to make sure we continue to provide you with accurate information. If we do not process personal information for quality control purposes, you may experience issues on the Services such as inaccurate transaction records or other interruptions. Our basis for such processing is based on the necessity of performing our contractual obligations with you. You may inform us about the same in the event you do not wish to avail such<br /> </li>
+                        <li><strong>To Ensure Network and Information Security<br /> </strong>We process your personal information in order to enhance security, monitor and verify identity or service access, combat spam or other malware or security risks and to comply with applicable security laws and regulations. The threat landscape on the internet is constantly evolving, which makes it more important than ever that we have accurate and up-to-date information about your use of our Services. Without processing your personal information, we may not be able to ensure the security of our Services.<br /> </li>
+                        <li><strong>For Research and Development Purposes</strong><br /> We process your personal information to better understand the way you use and interact with our Services. In addition, we use such information to customize, measure, and improve the Services and the content and layout of our website and applications, and to develop new services. Without such processing, we cannot ensure your continued enjoyment of our Services. Our basis for such processing is based on legitimate interest. You may inform us about the same in the event you do not wish to avail such<br /> </li>
+                        <li><strong>To Enhance Your Website Experience</strong><br /> We process your personal information to provide a personalized experience and implement the preferences you request. For example, you may choose to provide us with access to certain personal information stored by third parties. Without such processing, we may not be able to ensure your continued enjoyment of part or all of our Services. You may inform us about the same in the event you do not wish to avail of such services.<br /> </li>
+                        <li><strong>To Facilitate Corporate Acquisitions, Mergers, or Transactions<br /> </strong>We may process any information regarding your account and use of our Services as is necessary for the context of corporate acquisitions, mergers, or other corporate transactions. You have the option of closing your account if you do not wish to have your personal information processed for such purposes.<br /> EEA residents: pursuant to EEA Data Protection Law, we process this personal information to satisfy our legitimate interests as described above.<br /> </li>
+                        <li><strong>To Engage in Marketing Activities</strong><br /> Based on your communication preferences, we may send you marketing communications to inform you about our events or our partner events; to deliver targeted marketing, and to provide you with promotional offers based on your communication preferences. We use information about your usage of our Services and your contact information to provide marketing communications. You can opt out of our marketing communications at any time.<br /> If you are a current customer residing in the EEA, we will only contact you by electronic means (email or SMS) with information about our Services that are similar to those which were the subject of a previous sale or negotiations of a sale to you.<br /> If you are a new customer and located in the EEA, we will contact you if you are located in the EU by electronic means for marketing purposes only if you have consented to such communication. If you do not want us to use your personal information in this way, or to pass your personal information on to third parties for marketing purposes, please follow the opt-out links included in marketing communications or contact us at <a href="mailto:support@iconx.work">support@iconx.network</a>. You may raise such an objection with regard to initial or further processing for purposes of direct marketing, at any time and free of charge. Direct marketing includes any communications to you that are only based on advertising or promoting products and services.<br /> We will not use your personal information for purposes other than those purposes we have disclosed to you, without your permission. From time to time, we may request your permission to allow us to share your personal information with third parties. You may opt out of having your personal information shared with third parties or allowing us to use your personal information for any purpose that is incompatible with the purposes for which we originally collected it or subsequently obtained your authorization. If you choose to limit the use of your personal information, certain features or our Services may not be available to you. However, we shall strive to provide you with the best possible Services always.</li>
+                    </ol>
+                    <h2>Cookies &ndash; Collection &amp; Use of Data Collected Automatically</h2>
+                    <p>Cookies are small files that a site or its service provider transfers to your computer&rsquo;s hard drive through your web browser (if you have permitted) that enable the site&rsquo;s or service provider&rsquo;s systems to recognize your browser and capture and remember certain information. They are widely used in order to make websites work, or work more efficiently, as well as to provide information to the owners of the site.</p>
+                    <p>Cookies are stored on the hard drive of your computer and do not necessarily transmit your Personal Data to ICONX.</p>
+                    <p>Cookies are used to help ICONX understand your preferences based on previous or current site activity, which enables ICONX to provide you with improved services.</p>
+                    <p>Cookies are also used for security purposes and to compile aggregate Data about site traffic and site interaction so that better site experiences and tools can be offered in the future.</p>
+                    <p>ICONX may also use trusted third-party service providers that track this information on ICONX&rsquo;s behalf. Our service provider(s) will place cookies on the hard drive of your computer and will receive data that we select to educate us notably on:</p>
+                    <ul>
+                        <li>How visitors navigate around our Site;</li>
+                        <li>What products are browsed; AND/OR</li>
+                        <li>General transaction information.</li>
+                    </ul>
+                    <p>Our service provider(s) analyses this data and provide(s) us with aggregate reports. The data and analysis provided by our service provider(s) will be used to assist us in better understanding our visitors&rsquo; interests on our Site and how to better serve those interests. The data collected by our service provider(s) may be linked to and combined with data that we collect about you while you are using the Platform. Our service provider(s) is/are contractually restricted from using information they receive from our Site other than to assist us.</p>
+                    <p>You can choose to have your computer warn you (through your browser settings) each time a cookie is being sent, or you can choose to turn off all cookies. If you choose to turn cookies off, some of the features that make your site experience more efficient may not function properly.</p>
+                    <p>Specifically for analytics providers, we use Google Analytics, which is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our website. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network.</p>
+                    <p>You can opt out of having your activity on the website made available to Google Analytics by installing the Google Analytics opt-out browser add-on for your web browser. The Google Analytics opt-out browser add-on provides visitors with the ability to prevent their data from being collected and used by Google Analytics. The add-on prevents Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity. For more information on the privacy practices of Google, please visit the <a href="http://www.google.com/intl/en/policies/privacy/">Google Privacy &amp; Terms</a>.</p>
+                    <h2>Disclosing and Transferring Personal Data</h2>
+                    <p>We may disclose your Personal Data to third parties and legal and regulatory authorities, and transfer your Personal Data, as described below:</p>
+                    <ul>
+                        <li>There are certain circumstances where we may transfer your personal data to employees, contractors, and to other parties;</li>
+                        <li>We may share information about you with other members of our group of companies, so we can provide the best service across our group. They are bound to keep your information in accordance with this Privacy Policy; AND/OR</li>
+                        <li>We may also share your information with certain contractors or service providers. They may process your personal data for us, for example, if we use a marketing agency. Other recipients/service providers include advertising agencies, IT specialists, database providers, backup and disaster recovery specialists, email providers, or outsourced call centers. Our suppliers and service providers will be required to meet our standards for processing information and security. The information we provide them with, including your information, will only be provided in connection with the performance of their function.</li>
+                    </ul>
+                    <p>We may also share your information with certain other third parties. We will do this either when we receive your consent or because we need them to see your information to provide products or services to you. These include credit reference agencies, anti-fraud databases, screening agencies, and other partners we do business with;</p>
+                    <p>Your personal data may be transferred to other third-party organizations in certain scenarios:</p>
+                    <ul>
+                        <li>If we&rsquo;re discussing selling or transferring part or all of our business &ndash; the information may be transferred to prospective purchasers under suitable terms as to confidentiality;</li>
+                        <li>If we are reorganized or sold, information may be transferred to a buyer who can continue to provide services to you;</li>
+                        <li>If we&rsquo;re required to by law, or under any regulatory code or practice we follow, or if we are asked by any public or regulatory authority &ndash; for example, the Police;</li>
+                        <li>If we are defending a legal claim your information may be transferred as required in connection with defending such a claim. Your personal data may be shared if it is made anonymous and aggregated, as in such circumstances the information will cease to be personal data.</li>
+                    </ul>
+                    <p>Your information will not be sold, exchanged, or shared with any third parties without your consent, except to provide ICONX Services or as required by law.</p>
+                    <p>If a service provider is located in a country that does not apply the standard of EU General Data Protection Regulation, ICONX will use a contract to ensure that your Personal Data has the same level of protection as if protected in accordance with the UAE&rsquo;s Protection Law and EU General Data Protection Regulation.</p>
+                    <ol>
+                        <li><strong>How Personal Information is Shared with Third-Party Sites and Services<br /> </strong>Please note that merchants you interact with may have their own privacy policies. Hence ICONX is not responsible for its operations, including, but not limited to, its information practices.<br /> Information collected by third parties, which may include such things as contact details or location data, is governed by their privacy practices. We encourage you to learn about the privacy policies of those third parties.<br /> If you authorize one or more third-party applications to access your ICONX Account, then the information you have provided to ICONX may be shared with those third parties. Unless you provide further authorization, these third parties are not allowed to use this information for any purpose other than to facilitate your transactions using ICONX Services.</li>
+                    </ol>
+                    <h2>Transfer of Data</h2>
+                    <p>We store and process your Personal Data in data centers around the world, wherever we have our premises or service providers are located.</p>
+                    <p>As such, we may transfer your Personal Data outside of the United Arab Emirates or the European Union. Some of the countries to which your personal data may be transferred do not benefit from an appropriate protection regulation.</p>
+                    <h2>Security of Data</h2>
+                    <p>We store all your Personal Data on a server operated by Amazon Web Services.</p>
+                    <p>We take all reasonable efforts on technical and organizational security measures to protect your Data from being manipulated, lost, or accessed by unauthorized third parties.</p>
+                    <p>Our website is scanned on a regular basis for security holes and known vulnerabilities in order to make your visit to our Site as safe as possible.</p>
+                    <p>Your Personal Data is contained behind secured networks and is only accessible by a limited number of individuals who have special access rights to such systems and are required to keep the information confidential.</p>
+                    <p>Although no method of transmission over the Internet, or method of electronic storage is one hundred percent secure, we strive to continually update and improve our security measures with the most recent technological developments.</p>
+                    <p>We would like to draw your attention to the fact that we normally never ask for financial or payment information, such as your credit card number, passcode, account number, or pin number, in an e-mail, text, or any other communication that we send to you. Please always check that any website on which you are asked for financial or payment information in relation to our reservations or services is operated by ICONX. The risk of impersonating hackers exists and should be taken into account when using our website and/or Services.</p>
+                    <p>If you do receive a suspicious request, do not provide your information and report it by contacting one of our member service representatives as set in this Privacy Policy.</p>
+                    <p>Since we cannot 100% guarantee that loss, misuse, unauthorized acquisition, or alteration of your data will not occur, please accept that you play a vital role in protecting your own Personal Data. When registering with us, it is important to choose an appropriate password of sufficient length and complexity, to not reveal this password to any third parties, and to immediately notify us if you become aware of any unauthorized access to or use of your account.</p>
+                    <p>Furthermore, we cannot ensure or warrant the security or confidentiality of the information you transmit to us or receive from us by Internet or wireless connection, including email, phone, or SMS, since we have no way of protecting that information once it leaves and until it reaches us. If you have reason to believe that your data is no longer secure, please contact us at the email address, mailing address, or telephone number listed at the end of this Privacy Policy.</p>
+                    <h2>Retention of Data</h2>
+                    <ol>
+                        <li><strong>Personal Data<br /> </strong>ICONX will retain your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy.<br /> ICONX will retain and use your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your Data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.<br /> Therefore, and in accordance with our record-keeping obligations, we will retain the Account and other Personal Data for at least five years (and some up to ten years, as required by applicable law) after an Account is closed.<br /> </li>
+                        <li><strong>Data Collected Automatically<br /> </strong>ICONX will also retain Data Collected Automatically either generated by the use of the website or from the website infrastructure itself (for example, the duration of a page visit) for internal analysis purposes.<br /> This Data is generally retained for a shorter period of time, except when this Data is used to strengthen the security or to improve the functionality of our Service, or we are legally obligated to retain this Data for longer time periods.<br /> Hence, this kind of Data collected via technical means such as cookies, webpage counters, and other analytics tools is normally kept for a period of up to one year from the expiry of the cookie.</li>
+                    </ol>
+                    <h2>Disclosures Due to Legal Compliance</h2>
+                    <p>ICONX complies with all applicable privacy laws and regulations.</p>
+                    <p>ICONX may be compelled to surrender personal user or customer information to legal authorities without express user consent if presented with a court order or similar legal or administrative order, or as required or permitted by the laws, rules, and regulations of any nation, state, or other applicable jurisdiction.</p>
+                    <p>Also, in the event of a violation of the Terms &amp; Conditions of use of the Site or a violation of any restrictions on the use of materials provided in or through the Site, we may disclose personal user information to our affected business partners or legal authorities.</p>
+                    <h2>Your Rights</h2>
+                    <ol>
+                        <li><strong>General<br /> </strong>ICONX is the Data Controller with respect to your Personal Data. We determine the means and purposes of processing your Data.<br /> We may process your Personal Data if you consent to the processing, to satisfy our legal obligations if it is necessary to carry out our obligations arising from any contracts, we entered with you or to take steps at your request prior to entering into a contract with you, or for our legitimate interests to protect our property, rights or safety of ICONX, our customers or others.<br /> Whenever made possible, you can update your Personal Data directly within your account settings section. If you are unable to change your Personal Data, please contact us to make the required changes.<br /> We reserve our right to verify your identity before responding to such requests.</li>
+                    </ol>
+                    <ol start="2">
+                        <li><strong>Individual Rights in Relation to Your Data</strong></li>
+                    </ol>
+                    <ul>
+                        <li>Right to Access Your Personal Data<br /> You are entitled to ask ICONX if we are processing your Data. In case the answer is positive, you can request that we provide you with a copy of the Personal Data we hold. We may require you to specify the information or processing activities to which your request relates.<br /> This information will be provided without undue delay.<br /> Your right to access shall only be limited where the burden or expense of providing access would be disproportionate to the risks to your privacy in the case in question, or where the rights of persons other than you would be violated.</li>
+                        <li>Right to Correct Your Personal Data<br /> You are entitled to request that any incomplete or inaccurate Personal Data we hold about you be corrected or updated.<br /> Your right to access and correction shall only be limited where the burden or expense of providing access would be disproportionate to the risks to your privacy in the case in question, or where the rights of persons other than you would be violated.</li>
+                        <li>Right to Withdraw Your Consent<br /> You have the right to withdraw your consent to the processing of your Personal Data collected on the basis of your consent at any time. Your withdrawal will not affect the lawfulness of the previous processing based on your consent before the withdrawal.</li>
+                        <li>Right to Erasure of Your Personal Data<br /> You are entitled to ask us to delete or remove personal data in certain circumstances. There are also certain exceptions where we may refuse a request for erasure, for example, where personal data is required for compliance with the law or in connection with claims.</li>
+                        <li>Right to Data Portability<br /> If we process your Personal Data based on a contract with you or based on your consent, or the processing is carried out by automated means, you may request to receive your Personal Data in a structured, commonly used, and machine-readable format, and to have us transfer your Personal Data directly to another &ldquo;controller&rdquo; (a natural or legal person that determines the purposes and means of the processing of your Personal Data), where technically feasible unless the exercise of this right adversely affects the rights and freedoms of others.</li>
+                        <li>
+                            Right to Restriction of Processing<br /> You have the right to restrict or object to us processing your Personal Data where one of the following applies:
+                            <ul>
+                                <li>You contest the accuracy of your Personal Data that we processed. In such instances, we will restrict processing during the period necessary for us to verify the accuracy of your Personal Data;</li>
+                                <li>The processing is unlawful, and you oppose the erasure of your Personal Data and request the restriction of its use instead; OR</li>
+                                <li>We no longer need your Personal Data for the purposes of the processing, but it is required by you to establish, exercise, or in the defense of legal claims.</li>
+                            </ul>
+                        </li>
+                        <li>Right to Objection of Processing<br /> Where we are processing your personal data based on consent or legitimate interests (or those of a third party) we may be entitled to continue processing your Personal Information based on our legitimate interests or where this is relevant to the defense of legal claims.<br /> </li>
+                        <li>Automated Decisions<br /> You may contest any automated decision made about you where this has a legal or similar significant effect and ask for it to be reconsidered.<br /> </li>
+                    </ul>
+                    <h2>Children&rsquo;s Personal Data</h2>
+                    <p>We do not knowingly request to collect Personal Data from any person under the age of 18.</p>
+                    <p>If a user submitting Personal Data is suspected of being younger than 18 years of age, ICONX will require the user to close his or her account.</p>
+                    <p>We will also take all necessary steps to delete his or her Data as soon as possible.</p>
+                    <h2>Links to Other Websites</h2>
+                    <p>ICONX&rsquo;s Seller Platform website may contain links to other sites that are not operated by ICONX. If you click on a third-party link, you will be directed to that party&rsquo;s site.</p>
+                    <p>ICONX strongly advises you to review the privacy policy of every site you visit.</p>
+                    <p>ICONX has no control over and assumes no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+                    <h2>Changes to this Privacy Policy</h2>
+                    <p>ICONX may update the Privacy Policy from time to time, the changes to the Privacy Policy shall be posted on this page. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+                    <h2>Contact Us</h2>
+                    <p>If you have questions or concerns regarding this Privacy Policy, or if you have a complaint, you should first contact us at: <a href="mailto:support@iconx.work">support@iconx.network</a>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">I Agree to the Privacy Policy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Promoter Agreement -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="promoterAgreement" tabindex="-1" role="dialog" aria-labelledby="promoterAgreementLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="promoterAgreementLabel">ICONX Promoter Agreement</h6>
+                </div>
+                <div class="modal-body">
+                    <h3>ICONX Promoter Agreement</h3>
+                    <p>This Promoter Agreement sets forth the terms and conditions governing the relationship between ICONX and individuals participating in the ICONX Marketing Program. It outlines the rights, obligations, and responsibilities of a Promoter ("you") and ICONX. The ensuing sections delineate the obligations and privileges specific to the Promoter, supplementing the provisions outlined in ICONX&rsquo;s General Terms and Conditions</p>
+                    <p>Upon acceptance of the ICONX Promoter Agreement, the Promoter acknowledges having thoroughly perused, comprehended, and consented to all provisions contained herein, collectively referred to as the "Contract" or simply &ldquo;Agreement&rdquo;. Furthermore, the Promoter explicitly affirms, following diligent personal review and analysis, explicit acceptance of all the sections in this Agreement.</p>
+                    <p>ICONX retains the authority to modify and/or revise any segment of the Agreement at its sole discretion, without prior consent from the Promoter. Notification of the revised Agreement will be provided to the Promoter by ICONX, and the Promoter is obligated to accept such amendments as a substitute for the previously accepted Agreement. Should the Promoter dissent or decline the revised terms of the Agreement, the Promoter is entitled to withdraw from the Agreement (see Section 4).</p>
+                    <ol>
+                        <li><strong>DEFINITIONS</strong></li>
+                    </ol>
+                    <ul>
+                        <li>Notwithstanding the definitions provided below, any other terms specifically defined herein shall bear the same meaning as set forth in the General Terms and Conditions.<br /> </li>
+                        <li>
+                            Unless the context otherwise requires, the following expressions have the following meanings:
+                            <ul>
+                                <li><strong>Communication Materials</strong> refer to promotional and informational materials, such as documents, catalogs, presentations, videos, images, etc., furnished by ICONX.</li>
+                                <li><strong>ICONX Promoter</strong>, also simply called the &ldquo;Promoter&rdquo; refers to the User who becomes a member of the ICONX Marketing Program by completing a registration and having a valid subscription.</li>
+                                <li><strong>ICONX Marketing Program</strong> signifies the Promoter program as delineated in this Agreement.</li>
+                                <li><strong>Invitation Link</strong> designates the distinctive tracking link obtained upon signing up and subscribing to our platform or seller platform</li>
+                                <li><strong>ICONX Backoffice</strong> refers to the online platform provided by ICONX for Promoters, enabling them to manage their promotional activities, access communication materials, track benefits, and perform other related tasks essential for their participation in the ICONX Marketing Program.</li>
+                                <li><strong>Seller Platform</strong> signifies ICONX-approved third-party partners providing services or products to ICONX users through the ICONX platform.</li>
+                                <li><strong>Agreement</strong> encompasses these terms and conditions, the Promoter Agreement, and all materials referenced or linked within.</li>
+                                <li><strong>Promoter Lead</strong> is a customer prospect who clicks on the Promoter&rsquo;s Invitation Link that we make available to the latter.</li>
+                                <li><strong>Customer</strong> pertains to the authorized actual user of products and services offered on ICONX platform.</li>
+                                <li><strong>ICONX Content</strong> includes all information, data, text, messages, software, music, video, photographs, graphics, images, and tags produced by us.</li>
+                                <li><strong>ICONX Services and Products</strong> encompass the products and services offered or made available on the ICONX platform, including subscription services.</li>
+                                <li><strong>Subscription</strong> refers to web or mobile-based sales software subscribed to, developed, operated, and maintained by us or the Seller Platform, accessible via the website www.iconx.network or another designated seller&rsquo;s URL and/or mobile application.<br /> </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ol start="2">
+                        <li>
+                            <strong>ICONX MARKETING PROGRAM</strong>
+                            <ul>
+                                <li>ICONX enables independent and commercially active Users to become Promoters through the utilization of invitation links obtained after subscription to promote the distribution of ICONX Services and Products, or those offered by third parties, available via ICONX Backoffice to interested parties. It is essential to emphasize that the terms and conditions of third-party products or services are governed by the respective third party, by using their products and services you agree to seller platform terms and conditions.<br /> </li>
+                                <li>Upon completing a subscription on a Seller Platform or through ICONX Backoffice, the Promoter receives a unique invitation link, which can be forwarded to promoter leads.<br /> </li>
+                                <li>The network created by the Promoter evolves through the online subscription of their leads, who transition into customers, and the latter&rsquo;s leads who complete successful subscriptions, thereby shaping a network of promotional referrals.<br /> </li>
+                                <li>ICONX will periodically provide the Promoter with Communication Materials available for use in their promotional activities under the Agreement. <br /> </li>
+                                <li>The Promoter may be entitled to receive a benefit for their promotional activities (please refer to the ICONX Benefit Plan at ICONX Backoffice) subject to the terms and conditions. The Promoter has no claim against ICONX for compensation for any expenditure or type of cost incurred during the course of their promotional activities (including reimbursement of costs for journeys, travel, materials, or personal expenses). Additionally, ICONX may pay other bonuses at its sole discretion; however, the Promoter is not entitled to any form of obligation from ICONX.<br /> </li>
+                                <li>The calculation of all promotional benefits is accessible monthly through ICONX Backoffice. ICONX provides a statement containing all relevant information regarding the Promoter&rsquo;s promotional benefits. It is the Promoter's responsibility to review the statement promptly and address any concerns by contacting ICONX in writing at (<a href="mailto:support@iconx.work">support@iconx.network</a>) within seven (5) calendar days of the statement's availability at ICONX Backoffice.<br /> </li>
+                                <li>Upon a Promoter Lead&rsquo;s full payment for an order towards Products or Services and successful subscription offered by ICONX and a Seller Platform, the Promoter who referred the customer as per the benefit plan may be entitled to receive a promotional benefit, as outlined in the Benefits section in the ICONX Backoffice. The entitlement to a promotional benefit arises only after the Promoter Lead has successfully completed the subscription and made full payment, thereby becoming a Customer, provided that they did not make any chargeback request. To generate a promotional benefit, the Promoter's invitation link must be utilized by the Promoter Lead during the subscription process on ICONX and Seller Platform. Benefits are provided to the Promoter for specific promotional activities and achievements (refer to the ICONX Benefit Plan at ICONX Backoffice).<br /> </li>
+                                <li>All Intellectual Property Rights in and to all elements, versions, improvements, and derivatives of the Products and Services are owned by ICONX and/or the Sellers. The Promoter is not authorized to use these Intellectual Property Rights.<br /> </li>
+                                <li>Promoters are not subject to any regional restrictions for acquiring new prospective users (except the United States of America, Cuba, Iran, North Korea, Syria, countries that are affected by a European Union, United States of America, and/or United Arab Emirates embargo and countries included in a sanctions list such as the OFAC Sanctions list and any regional limitations outlined in the General Terms &amp; Conditions by ICONX). Promoters are always responsible for independently ensuring compliance with the relevant statutory requirements of their respective countries. The Promoter has the right to engage third parties to support their promotional activities. ICONX will not be held liable for any claims or damages filed by third parties related to damages caused as a result of using ICONX Products and Services, and the Promoter shall be liable for any damages caused to third parties as a result of utilizing ICONX Products &amp; Services.<br /> </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <ol start="3">
+                        <li><strong>PROMOTER REGISTRATION</strong></li>
+                    </ol>
+                    <ul>
+                        <li>To become a Promoter, users must accept the ICONX Promoters Agreement, which is exclusively accessible to Promoters, accept the terms and conditions of ICONX and the Seller Platform, and have a valid successful subscription to ICONX and the Seller Platform.<br /> </li>
+                        <li>The Promoter is required to disclose their residential or business address during the registration process and pass KYC as required.<br /> </li>
+                        <li>Any attempt to gain unjustified benefits through multiple registrations shall entitle ICONX, without any liability to the promoter or any third party, to terminate the contractual relationship with immediate effect for justifiable cause without prior notice and to revoke all benefits obtained through such means. In cases of multiple registrations, only the first account will be retained, and the benefits acquired through subsequent accounts will be forfeited.</li>
+                    </ul>
+                    <ol start="4">
+                        <li><strong>PROMOTER&rsquo;S OBLIGATIONS</strong></li>
+                    </ol>
+                    <ul>
+                        <li><strong>Non-Disclosure</strong><br /> The Promoter is obligated to maintain strict confidentiality regarding any trade secrets or proprietary information of ICONX and Seller Platform that they have been entrusted with or have become privy to during their engagement with ICONX and shall extend these confidentiality obligations to their affiliates. Such confidentiality obligations shall persist beyond the termination of this Contract.<br /> </li>
+                        <li><strong>Return of Materials</strong><br /> Any materials or documents pertaining to internal business procedures provided to the Promoter must be promptly returned to ICONX upon their use, but no later than ten (10) days following the termination of the Contract.<br /> </li>
+                        <li><strong>Non-Compete Clause</strong><br /> Throughout the duration of this Contract, the Promoter shall refrain from engaging, directly or indirectly, in any activities for a competitor offering services or products similar to those of ICONX, or from initiating or managing such a competing business, or providing financial support to a competitor company, or advising or assisting a competitor company without obtaining prior written consent from ICONX. ICONX reserves the right to demand cessation of such activities or terminate the agreement with the Promoter. In the event of a breach of non-competition, ICONX is entitled to seek compensation commensurate with the damages incurred.<br /> </li>
+                    </ul>
+                    <ol start="5">
+                        <li><strong>PROMOTER&rsquo;S RESPONSIBILITIES</strong></li>
+                    </ol>
+                    <ul>
+                        <li>Post acceptance of the registration, Promoters are strongly encouraged and advised to undergo certified training to ensure their familiarity with the services and products available on the ICONX Backoffice.<br /> </li>
+                        <li>The Promoter operates within the scope of commercial activity as an independent entrepreneur. No employment, subcontracting, service, or corporate relationship of any nature is established between ICONX and the Promoter. The Promoter performs contractual services exclusively during autonomous and independent activities legally distinct from ICONX, and particularly not under any instructions from ICONX. The Promoter is only required to adhere to the terms and conditions of this Contract necessary for their promotional activities.<br /> </li>
+                        <li>The Promoter is explicitly prohibited from making any misrepresentations, warranties, or any impression suggesting employment, subcontracting, or sales representation of ICONX, the Sellers, or any other company affiliated with ICONX or the Sellers. The Promoter is not authorized to act as a representative of ICONX or the Sellers, enter into contracts, or receive services on behalf of ICONX or the Sellers.<br /> </li>
+                        <li>The Promoter is solely responsible for ensuring the proper registration of their commercial activities and obtaining the necessary legal authorizations and licenses for conducting business. The Promoter must ensure the payment of appropriate taxes and duties and indemnify and hold ICONX harmless against any claims by third parties (government and private entities competent to impose taxes and issue permits for business activities related to this contract) for misrepresentations or warranties.<br /> </li>
+                        <li>The Promoter is obliged to provide only accurate statements regarding ICONX and its Products and Services. Such statements must align with the official communications of ICONX and its Communication Material. <br /> <br /> </li>
+                        <li>When promoting Products and Services offered by ICONX, the Promoter is responsible for making all information in the official Communication Material clearly available. The Promoter assumes full responsibility for providing complete and accurate information about any product and/or service provided by ICONX to any third party and indemnifies and holds harmless against any claims made by third parties in related matters. Before using these Communication Materials, the Promoters must ensure they have the current and latest version.<br /> </li>
+                        <li>If the Promoter becomes aware of a potential breach of the provisions of this Agreement by themselves or by another User or Promoter, they must promptly inform ICONX of this without delay.<br /> </li>
+                        <li>The Promoter shall bear unlimited and total liability for compliance with the provisions set forth in this Contract. This liability extends to all individuals the Promoter engages to fulfill their contractual obligations. This also applies to the actions of any third parties for whom they are responsible. Any breach by the Promoter grants ICONX the right, without any liability, to terminate this Contract immediately and without prior notice to the Promoter.<br /> </li>
+                    </ul>
+                    <ol start="6">
+                        <li><strong>GENERAL PROMOTER GUIDELINES</strong></li>
+                    </ol>
+                    <ul>
+                        <li>The Promoter is obligated to utilize the official information provided in the Communication Materials. Any dissemination of incomplete or inaccurate or change of information regarding any Product and/or Service offered by ICONX renders the Promoter liable. The unauthorized use of promotional material grants ICONX the right, without any liability, to immediately terminate the Agreement without prior notice.<br /> </li>
+                        <li>The Promoter is strictly prohibited from making income-related statements or claims about their earnings potential at ICONX. Instead, the Promoter is obliged to explicitly caution potential promoters during initiation discussions that achieving a high income through this program is attainable by only a minority of promoters.<br /> </li>
+                        <li>Sales and marketing endeavors must not replicate commissions, construed as "refer-to-earn bounties" or other commissions tied solely to the recruitment of new Promoters. No actions should create the impression that the promoted distribution system is unlawful, such as an illegal progressive Ponzi scheme, pyramid scheme, or any fraudulent scheme. Similarly, it must not be misrepresented that ICONX engages in the distribution of currency investments, financial investments, or the sale or distribution of digital assets or other digital assets through itself or third parties. It is expressly clarified that ICONX does not directly or indirectly sell, distribute, or broker any digital assets through itself or third parties.<br /> </li>
+                        <li>Sales and marketing activities must not target minors or inexperienced individuals and shall not exploit their age, health status, or limited capacity to understand and induce them to enter into contracts. When interacting with socially vulnerable or non-native language groups, Promoters must consider their financial capability and language comprehension and their understanding of the services and products offered. The Promoter bears full responsibility towards third parties for any violations thereof. Otherwise, ICONX reserves the right to terminate such contracts without liability to the Promoter or third parties. Measures must be taken to prevent members of such groups from placing orders that are not suitable for their circumstances.<br /> </li>
+                        <li>Sales and marketing activities must refrain from being overpromising, inappropriate, illegal, unsafe, or exerting undue pressure on targeted consumers. Otherwise, ICONX reserves the right to terminate such contracts without liability to the Promoter or third parties.<br /> </li>
+                        <li>Promoters may only utilize testimonials or personal references for business purposes if officially authorized by both the referrer and ICONX, and if accurate and up to date. Testimonials and personal references must always be relevant to the intended purpose.<br /> </li>
+                        <li>Customers shall not be persuaded to accept services through dubious or misleading promises, or promises of special benefits linked to uncertain future success. Promoters must abstain from inducing customers to accept offers solely to accommodate the provider, end an unwanted conversation, obtain an advantage unrelated to the offer, or express gratitude for such an advantage.<br /> <br /> </li>
+                    </ul>
+                    <ol start="7">
+                        <li><strong>BLOCKCHAIN AND DIGITAL ASSETS SERVICES </strong></li>
+                    </ol>
+                    <ul>
+                        <li><strong>Volatility</strong> <br /> The Parties recognize the high volatility and speculative nature of the digital asset market. They acknowledge that the possession and use of digital assets and services related to it entail significant risks, including the potential for substantial losses and even total loss of value. To mitigate this risk, the Promoter is responsible for exchanging digital assets held in its Wallets for stable value digital assets or fiat currency as it would mitigate the risk. ICONX explicitly disclaims liability for any loss of value associated with digital assets and the returns generated from digital assets service offered through ICONX, by utilizing the services you acknowledge and agree to the seller platform terms and conditions.<br /> </li>
+                        <li><strong>Exclusion of Liability </strong><br /> ICONX bears no responsibility for any direct or indirect damage suffered by the Promoter arising from or related to this agreement, including but not limited to loss of profits, damage to reputation, loss of future opportunities, and the like.<br /> </li>
+                        <li><strong>Force Majeure</strong><br /> Each Party shall be absolved from its obligations under this Contract in the event of force majeure, defined as circumstances beyond the Party's control occurring after the Contract's conclusion. Force majeure events may include, but are not limited to, pandemics, war, strikes, riots, expropriations, significant legal changes, natural disasters, and any other unforeseeable circumstances outside ICONX's control, such as legal or official prohibitions pertaining to ICONX's Products and Services, water damage, power outages, and disruptions or damage to data and power lines. Upon the occurrence of a Force Majeure Event, each Party shall promptly inform the other Party in writing. Within ten (10) days of the force majeure event, both Parties shall engage in discussions to address the implications of the event.<br /> </li>
+                    </ul>
+                    <ol start="8">
+                        <li><strong>GENERAL RISK INFORMATION FOR DIGITAL ASSETS</strong></li>
+                    </ol>
+                    <p>Before engaging in the ICONX Marketing Program and agreeing to the Agreement, you are required to review and accept the following risk information as an integral part of this Agreement:</p>
+                    <ul>
+                        <li>You understand and accept that ICONX and/or its Promoters do not engage in the direct or indirect sale, distribution, or brokerage of digital assets, either independently or through third parties. They do not provide investment advice or recommendations of any kind.<br /> </li>
+                        <li>You explicitly acknowledge and understand that the digital asset market is characterized by high volatility and extreme speculation. You are fully aware that trading, mining or holding digital assets entails significant risks, including the potential for substantial losses, which may occur rapidly and result in a complete loss of the digital asset's value.<br /> </li>
+                        <li>You acknowledge and agree that ICONX makes no representations, warranties, or guarantees regarding profit expectations, performance, or any other returns associated with services and products related to cryptocurrencies.<br /> </li>
+                        <li>
+                            In particular, prior to becoming a Promoter and entering into any contractual agreements, you explicitly acknowledge and agree to ICONX seller platforms&rsquo; specific terms and conditions, in addition to the following conditions:
+                            <ul>
+                                <li>You affirm that you possess experience in the realm of digital assets and all products and services and their practical application, and you willingly assume the associated economic, legal, tax, and other risks pertaining to the digital assets in your possession; AND</li>
+                                <li>You have a comprehensive understanding of the specific digital assets you hold and the factors that influence their value.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>You explicitly recognize and agree that ICONX does not offer any advice concerning digital assets and associated products and services or the digital asset markets.<br /> </li>
+                        <li>You expressly acknowledge and agree that subject to the laws and regulations applicable in your jurisdiction, the mining, holding, or trading of digital assets may not be legally permissible, or may require specific authorization, and it is your sole responsibility to ensure compliance with relevant laws and regulations before engaging in the use of ICONX Services.<br /> </li>
+                        <li>You expressly acknowledge and agree that any dissemination or promotion of ICONX Services as an asset, currency, or financial investment, which could be utilized by unauthorized third parties, is strictly prohibited and unlawful, and you must refrain from making any speculative or unauthorized statements or projections regarding ICONX Services.<br /> </li>
+                        <li>You acknowledge that ICONX does not endorse or welcome any third-party statements regarding its services or products, and users are advised not to rely on such statements, whether positive or negative.<br /> </li>
+                        <li>ICONX shall not be held liable for the success or outcomes desired by the Promoter through the use of ICONX Services.<br /> </li>
+                        <li>Due to the inherent risks associated with owning mining or trading digital assets, as outlined in sections 8.1 through 8.6 and for those outlined in sections 8.7 through 8.9, ICONX does not provide any express or implied representations or warranties regarding the avoidance of losses or total loss. Furthermore, ICONX does not warrant or guarantee the legality of digital asset mining, possession or trading in the Promoter's jurisdiction, as stated in section 8.6.<br /> </li>
+                        <li>You expressly acknowledge and agree that, in accordance with section 8.6, ICONX reserves the right to limit, terminate, or suspend its services in certain markets without liability or prior notice to the Promoter. In the event of termination, ICONX may terminate the contractual relationship with the Promoter without prior notice or liability.<br /> </li>
+                    </ul>
+                    <ol start="9">
+                        <li><strong>TERMINATION OF PROMOTER AGREEMENT </strong></li>
+                    </ol>
+                    <p>A Promoter Agreement may be terminated either voluntarily by the Promoter, or by ICONX.</p>
+                    <ul>
+                        <li>
+                            Upon registration with ICONX, you acknowledge that you are registering as an entrepreneur and not as a consumer, thereby foregoing any statutory right of withdrawal. However, ICONX extends to you a voluntary contractual right of withdrawal, valid for fourteen (14) days from the date of reading and/or acceptance of this Agreement or a revision of the same. <br /> <br />
+                            <ul>
+                                <li>Right of Withdrawal:<br /> You may exercise your contractual right of withdrawal by closing your ICONX Account and forfeiting all associated legal rights and benefits.</li>
+                                <li>Blockchain (Exception to the Right of Withdrawal):<br /> Due to the irreversible nature of distributed ledger technologies and the inseparably private key and security words of blockchain-related products and services, acquisitions involving "Blockchain" are irreversible. Consequently, the voluntary right of withdrawal does not apply to purchases related to licenses.</li>
+                            </ul>
+                        </li>
+                        <li>Compliance with the terms of this Agreement by the Promoter is obligatory. Any failure to adhere to these terms, such as providing misleading information, may result in ICONX temporarily deactivating the Account of non-compliant Promoters.<br /> </li>
+                        <li>
+                            ICONX reserves the right to terminate this Contract at any time for just cause, with immediate effect and without prior notice to the Promoter. Just cause for termination shall arise in the occurrence of any of the following events:
+                            <ul>
+                                <li>The Promoter breaches any of their contractual obligations under this Agreement;</li>
+                                <li>The Promoter knowingly provides false information upon entering this Contract;</li>
+                                <li>The Promoter utilizes unauthorized Communication Material;</li>
+                                <li>The Promoter employs declared or registered brand names, email addresses, or website domains similar to ICONX, affiliated partner companies, or Seller Platform without prior written authorization from ICONX;</li>
+                                <li>The Promoter assumes the identity of ICONX, or the owners of the Products or Services provided by ICONX; OR</li>
+                                <li>The Promoter is convicted of a crime or engages in unethical activities that undermine the basis of trust necessary for ICONX to continue the collaboration, or there is an imminent risk of reputational damage.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>The termination of this Contract shall not affect any purchases of Products and Services offered by ICONX and their subsequent use.<br /> </li>
+                        <li>In the event of termination, the Promoter shall retain any promotional benefits and Products and Services for which payment has already been made.<br /> </li>
+                    </ul>
+                    <ol start="10">
+                        <li>
+                            <strong>PROMOTIONAL BENEFIT ELIGIBILITY</strong>
+                            <ul>
+                                <li>
+                                    In order to qualify for promotional benefits:
+                                    <ul>
+                                        <li>A Promoter Lead must become an accepted Customer;</li>
+                                        <li>A Customer subscription must have taken place; AND</li>
+                                        <li>A Customer must retain their status throughout the subscription period and must not claim a chargeback.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    You are not entitled to receive promotional benefits or any other compensation from us based on transactions if:
+                                    <ul>
+                                        <li>Such compensation is prohibited or restricted by the laws or regulations of your jurisdiction; OR</li>
+                                        <li>The benefits have been acquired through fraudulent means, misuse of the Promoter invitation Link, violation of any ICONX or Seller platform terms and conditions, misuse of the Promoter Backoffice, or by any other means deemed by us to breach the spirit of the Promoter Program.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>10.3. In competitive scenarios with other Promoters, we may choose to grant the promotional benefits to the Promoter we consider most qualified, at our discretion. We reserve the right to cease Commission payments if any of the eligibility criteria in this subsection are not met at any time.<br /> </p>
+                    <ol start="11">
+                        <li><strong>GOVERNING LAW AND DISPUTE RESOLUTION</strong></li>
+                    </ol>
+                    <p>All parties involved hereby consent that this agreement shall be governed by and construed in accordance with the laws and regulations of the United Arab Emirates. Should any dispute arise between the parties concerning the implementation or elucidation of this agreement, jurisdiction shall exclusively lie with the courts of the United Arab Emirates.</p>
+                    
+                    <p>CTA: <strong>Accept Terms &amp; Proceed</strong> &lt;Takes to Promoter sign-up page&gt;</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">I accept the Promoter Agreement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Terms Conditions -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="termsConditions" tabindex="-1" role="dialog" aria-labelledby="termsConditionsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="termsConditionsLabel">ICONX Terms & Conditions</h6>
+                </div>
+                <div class="modal-body">
+                    <h3>ICONX&rsquo;S TERMS AND CONDITIONS</h3>
+                    <p>Effective 07-02-2024</p>
+                    <p>Please read ICONX&rsquo;s Terms and Conditions (or &ldquo;Terms&rdquo;) carefully before using the platform or services described herein. By accessing the platform, and using ICONX, you are acknowledging that you have read these terms, as amended from time to time, and you are agreeing to be legally bound by them.</p>
+                    <p>If you do not agree to these terms, or any subsequent amendments, changes, or updates, do not access ICONX or any of its affiliated Sellers' websites or services.</p>
+                    <h2>Eligibility</h2>
+                    <p>By utilizing or being associated with ICONX, you confirm and guarantee that you:</p>
+                    <ul>
+                        <li>Are 18 years old or older and have the capacity to enter a legally binding contract;</li>
+                        <li>Have not been previously suspended or removed from ICONX or any of its affiliated Seller Platforms;</li>
+                        <li>Hold complete power and authority to enter into this agreement without violating any other existing agreements;</li>
+                        <li>Are not involved in, supporting, or facilitating any unlawful activities through your association with us or your use of the platform or services; AND</li>
+                        <li>Will abstain from using the platform or services if the laws in your country prohibit such usage in accordance with these terms.</li>
+                    </ul>
+                    <p>We reserve the right to terminate your access to ICONX for any reason and in our sole and absolute discretion. Use of ICONX is deemed void, prohibited by applicable law.</p>
+                    <p>Depending on your country of residence, you may not be able to use certain functions or features of ICONX provided herein. It is incumbent upon you to adhere to the rules and laws in your country of residence and/or the country from which you access ICONX.</p>
+                    <h2>General</h2>
+                    <p>These Terms govern the relationship between Users (referred to as "you") and ICONX (or "we" or "us").</p>
+                    <p>ICONX reserves the right, at any time and at our sole discretion, to modify the terms or benefits included herein without notice to you. It is incumbent upon you to check these periodically.</p>
+                    <p>For a comprehensive understanding of terminology, definitions, descriptions, rules, and other limitations pertaining to third parties, please refer to the Terms and Conditions outlined on the websites of the relevant third parties. By engaging with the ICONX platform you also agree to third-party Seller Platforms&rsquo; dedicated terms and conditions, in addition to the Terms and Conditions herein.</p>
+                    <h2>Restricted Users and Territories</h2>
+                    <p>In adherence to international regulations and compliance standards, ICONX imposes restrictions on certain users and territories, users residing in specific countries or territories subject to sanctions, embargoes, or trade restrictions are prohibited from accessing our platform and services. These restrictions extend to countries affected by embargoes imposed by the United States of America, Cuba, Iran, North Korea, Syria, as well as those impacted by European Union, United States of America, and/or United Arab Emirates embargoes. Additionally, users from countries included in sanction lists, such as the OFAC Sanctions list, are also restricted from accessing the services provided by ICONX.</p>
+                    <h2>Definitions</h2>
+                    <p>This section will be categorically expanded as and when the need arises to include additional terminology with the expansion of related services or products.</p>
+                    <ol>
+                        <li><strong>Customer</strong> pertains to the authorized actual user of products and services offered by ICONX, whether they are those owned by ICONX or any of the Seller Platforms.</li>
+                        <li><strong>ICONX Backoffice</strong> refers to the online platform provided by ICONX for Promoters, enabling them to manage their promotional activities, access communication materials, track commissions, and perform other related tasks essential for their participation in the ICONX Marketing Program.</li>
+                        <li><strong>ICONX Content</strong> refers to promotional and informational materials, such as documents, catalogs, presentations, images, videos etc., furnished by ICONX. It also includes all information, data, text, messages, software, music, photographs, graphics, and tags produced by us.</li>
+                        <li><strong>Seller Platform</strong> signifies ICONX-approved third-party partners providing services or products to ICONX Users through our platform.</li>
+                        <li><strong>ICONX Account</strong> signifies an account created on the ICONX platform.</li>
+                        <li><strong>ICONX Platform</strong> refers to the Backoffice, website and mobile application to access the products and services including the websites, portals, and any medium used that belong to ICONX or any of the Seller Platforms.</li>
+                        <li><strong>ICONX User </strong>refers to the &lsquo;User&rsquo; (henceforth mentioned as the &lsquo;User&rsquo;) who becomes a member of the ICONX Marketing Program by signing up and completing subscription.</li>
+                        <li><strong>ICONX Services</strong> encompass the products and services offered or made available through ICONX or a Seller Platform, including subscription service.</li>
+                        <li><strong>Invitation Link</strong> designates the distinctive tracking link obtained upon becoming ICONX User by subscribing to any of the services offered on our platform, whether they are those owned by ICONX or any of the Seller Platforms.</li>
+                        <li><strong>Subscription Service</strong> refers to web or mobile-based sales software subscribed to, developed, operated, and maintained by us or any Seller Platform, accessible via the website iconx.network or another URL and/or mobile application made accessible through a Seller Platform.</li>
+                    </ol>
+                    <p>&nbsp;ICONX Services</p>
+                    <p>The Platform allows its Users, who agree to the Terms, to buy products and services from its Seller Platform, which are made available and operated by third parties (hereinafter referred to as the "Seller Platforms").</p>
+                    <p>The purpose of this Platform is to offer an opportunity for Users to promote third-party products and services and earn benefits. When a User places an order from a Seller Platform, they agree to their policies, terms, and conditions and also agree that their information will be shared between ICONX and the Seller Platform to perform the services. ICONX only acts as a marketing provider of that Seller Platform and does not guarantee the return of any product and service provided.</p>
+                    <p>ICONX shall not be liable or responsible for any products and services offered by Seller Platforms that do not meet the expectations of Users in any manner. Users are solely responsible for verifying the accuracy of the service provided therein. All products and services offered on ICONX platform are subject to a User&rsquo;s acceptance of the Seller platform policies, terms, and conditions.</p>
+                    <h2>ICONX Account</h2>
+                    <p>A User can register on the Platform and choose a &lsquo;username&rsquo; and a &lsquo;password,&rsquo; both determined by the User themselves. The &lsquo;username&rsquo; is unique, so that no two Users will ever share the same &lsquo;username.&rsquo; In case the &lsquo;username&rsquo; selected has already been assigned to another User, it is advised to use a variant of the same, or another &lsquo;username&rsquo; altogether. The &lsquo;password&rsquo; is confidential and known only to the User, who can change it whenever desired. Selecting and safeguarding the password is the User's sole responsibility, and ICONX is not responsible for any issues arising from its use.</p>
+                    <p>ICONX notifies Users about promotions that offer potential benefits in the ICONX Backoffice through email. Account details, including the &lsquo;username&rsquo;, registered email, registered phone number etc., may be received or shared with third-party companies for service provision. To access services requiring an additional Seller Platform account, users must undergo a registration process on the Seller Platform.</p>
+                    <p>By using the Platform, Users affirm that the personal information provided is accurate and current, undertaking to promptly update any changes. Impersonation or the use of false names is prohibited. Registering multiple accounts under a single User is not allowed, and violating this may lead to account termination. Users must keep their passwords and/or secret phrases confidential, not sharing them with anyone. Users acknowledge and agree that secret phrases are not recoverable and losing them will stop the access to their account. They are responsible for all activities and orders under their account. If they suspect any unauthorized access, Users should promptly contact ICONX.</p>
+                    <p>The Platform should not be used for unlawful or unauthorized purposes, including distributing objectionable material, interfering with others' use of the Platform, or attempting unauthorized access through hacking, phishing, or any other fraudulent means.</p>
+                    <p>Each User is expected to hold only one account, with service allowed in certain cases, but promotions may not be applicable. To delete an account, Users must contact ICONX via email or our chat feature, and formally submit a deletion request.</p>
+                    <h2>Subscription Order Submission</h2>
+                    <p>After a User reviews a product or service and elects to subscribe and complete an order on ICONX or a Seller Platform, they will need to finalize the subscription and place the order by clicking the &lsquo;Checkout&rsquo; button. It is crucial that the User reviews the information they enter and correct anything amiss before clicking the &lsquo;Checkout&rsquo; button, because once the order is placed, no errors can be rectified. Upon receiving the order, both ICONX and the Seller Platform will process the subscription and will notify the User via email once their order has been successfully placed.</p>
+                    <p>If any payment a User makes is not authorized, they will be redirected to the previous page on the Platform. ICONX is not obligated to complete the order and provide the subscription service. The User is not entitled to cancel a subscription order or receive a refund unless the cancellation is a result of ICONX or the Seller Platform's system default. Any credit or debit cards, electronic wallets, and/or bank account used in placing orders on the Platform must belong to the user.</p>
+                    <h2>User Responsibilities</h2>
+                    <p>While utilizing the Platform's services, the User acknowledges and commits to the following:</p>
+                    <ul>
+                        <li>The information provided to us must be accurate. The User is solely responsible for any losses resulting from misinformation or inadequate information (e.g., forgetting the password). In such cases, their account may be terminated.</li>
+                        <li>The user is obligated to comply with ethical standards when promoting platform services. This encompasses to refer only individuals who genuinely express interest in the products and services provided by ICONX or a Seller Platform, and refraining from engaging in activities such as spamming, disseminating misleading information, or any other actions that could be construed as inaccurate, overpromising, dishonest or manipulative. This obligation extends to, but is not limited to, refraining from promoting products and services within private or public groups on any social media platform and disseminating inaccurate information about ICONX and a Seller Platform. These conditions are an integral part of the Terms and Promoter Agreement governing the use of our services.</li>
+                        <li>The User bears sole responsibility for personal ideas, opinions, statements made while using our services. The User agrees not to access our services in an unauthorized manner, alter the software, use modified software, or engage in any activity that violates the Platform's identified and intended methods. ICONX is to be indemnified for material and moral losses if the User fails to comply with these provisions. ICONX is not responsible for damages resulting from unauthorized access to Users' data, and the User agrees not to share threatening, immoral, racially offensive, unlawful, or inaccurate information.</li>
+                        <li>The User consents to all records or materials obtained using ICONX, taking absolute responsibility for any damage or loss of information caused on their device. The User shall not demand compensation for losses arising from service use. They should also refrain from using the services for advertising purposes without ICONX's consent and acknowledge that ICONX may monitor systems at any time.</li>
+                        <li>The User agrees not to use the Platform for illegal purposes, engage in unauthorized mailing, or misuse information, including personal information of others, the Promotion Benefits and any other information displayed in the ICONX Backoffice. The User is responsible for any actions committed through their &lsquo;username.&rsquo;. The User is prohibited from unauthorized access attempts, interference with other Users' accounts, uploading harmful files, or disrupting the Platform's security.</li>
+                        <li>To purchase ICONX products and services, the User must be of statutory legal age. ICONX and/or the Seller Platforms reserve the right to request valid proof of age, refuse orders if legal age cannot be proven, ask for additional documents to verify user identity, and/or refuse subscriptions for any reason.</li>
+                    </ul>
+                    
+                    <h2>Prices And Payment</h2>
+                    <p>Upon acceptance of their order, an agreement is established between a User and the Seller Platform. ICONX does not provide any payment services to Users or third parties. Online payments are processed through the User&rsquo;s bank account issuer or payment service provider and the providers in collaboration with ICONX and/or Seller Platform.</p>
+                    
+                    <p>Prices displayed on the Platform are subject to applicable taxes. Users acknowledge that prices on the Platform may differ from those on the Seller Platform elsewhere, including their own websites and mobile applications. The presentation of product and service prices may vary depending on the Seller Platform, and, in accordance with applicable laws, the prices on our Platform. Prices, charges (including Subscription, transaction fee and Service fees), indicated on the Platform are at the time of each order and may be subject to later changes. ICONX and the affiliated Seller Platforms reserve the right to modify product and service prices and impose fees (including but not limited to subscription, transaction, or Service fees) for their services as deemed necessary for their business. The breakdown of prices and charges is displayed before checkout on our platform or the Seller Platform. By placing an order, a User must agree with all amounts, additional charges, and the final 'Total' amount displayed to them.</p>
+                    
+                    <p><strong>Payment Methods</strong></p>
+                    <p>When using their account as a payment instrument, Users can select from various payment methods available and indicated on the Platform. ICONX retains the right to introduce additional payment methods or remove existing ones at its sole discretion. If the User opts for an online payment method, the payment will be processed by third-party payment service provider(s), including the Seller Platform and their service partners. User&rsquo;s credit card/payment information may be stored by third-party payment service provider(s) for future orders. ICONX itself does not store any credit card or payment information.</p>
+                    
+                    <p>Before placing an order, a User must ensure that their credit and/or debit card, electronic wallet, or bank account have sufficient funds to fulfill the payment for an order. They must carefully read the applicable payment terms and disclaimers linked at the time of checkout for the payment type they select. The user is responsible for checking and verifying any payment made, as failure due to incorrect payment information including but not limited to unsupported digital or fiat currencies, wrong receiving wallet address or receiving bank account details will result in order cancellation.<br /> </p>
+                    <h2>Risk Disclosure</h2>
+                    <p>The Risk Disclosure section illustrates the risks involved in the use of services provided by the ICONX and Seller Platform. These risks, and any other risks that may arise either now or in the future, could result in loss or jeopardy of a User&rsquo;s assets and affect the ability to receive any benefits available.</p>
+                    <p>Before beginning to use the Services, Users should ensure that they have read and understood (and must represent and warrant that they have read and understood) the following risk disclosures. Users must note that this is not an exhaustive list of all of the risks associated with products and services.</p>
+                    <p>The effectiveness of a User&rsquo;s promotional efforts hinges entirely on their engagement and decisions. It is essential to note that not all activities and referrals may yield benefits, and results can vary. The User acknowledges that all benefits and earnings on the ICONX Platform are not assured and are susceptible to change. And any gains from promotional activities rely on various factors, including performance, market conditions, and network dynamics, which may undergo fluctuations over time. We explicitly disclaim any warranties or guarantees, be they express or implied, concerning potential income or financial outcomes associated with platform usage.</p>
+                    <p>Users may seek professional advice before making any decisions. It is imperative that a Users must also check regularly the latest terms and conditions applicable to the services, as they may change from time to time.</p>
+                    <ol>
+                        <li>
+                            <strong>No Advice and No Reliance</strong>
+                            <ul>
+                                <li>ICONX does not advise on the merits of any product and service, mining and trading risks, or tax consequences, and ICONX does not provide any other financial, investment, taxation or legal advice in connection with the Services. To the extent that we or our representatives provide market commentary, or any other information, the act of doing so is incidental to a User&rsquo;s relationship with us and such information should not be construed as investment or financial advice. Any decision by the User to use the Services is their own independent decision. The User must represent that they are not relying on any communication (written or oral) by us as investment advice or as a recommendation to use the Services. ICONX will not be liable for any loss suffered by a User or any third party.</li>
+                                <li>Users accept the risk of using the platform service. In entering into any transaction on the Platform, the User represents that they have been, are, and will be solely responsible for making their own independent appraisal and investigations into the risks of such transaction.<br /> They also represent that they have sufficient knowledge, market sophistication, professional advice, and experience to make their own evaluation of the merits and risks of any transactions entered into on the Platform or any product and service offered by seller platform.</li>
+                                <li>ICONX is not a broker, agent, or advisor and has no fiduciary relationship or obligation to any and all Users in connection with any services or other decisions or activities effected by a User who chooses to proceed with our Services.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Risks of Digital Asset Services</strong>
+                            <ul>
+                                <li>Digital assets are highly volatile and carry a high degree of risk, subject to rapid and unexpected price fluctuations. The price of digital assets may move up or down and may become valueless.</li>
+                                <li>Digital assets are not legal tender. They may not be backed by physical assets and are not guaranteed by a government. They may not have intrinsic value.</li>
+                                <li>Transactions involving digital assets are irrevocable. Lost or stolen digital assets may be irretrievable. Once a transaction has been verified and recorded on a blockchain, loss or stolen digital assets generally will not be reversible.</li>
+                                <li>Digital asset services including but not limited to mining and trading may incur losses rather than profit. Digital assets, being a high-risk asset class invites utmost caution while dealing or trading with them.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Digital Assets: Liquidity, Volatility &amp; Transfers</strong>
+                            <ul>
+                                <li>Digital asset services can be extremely risky and volatile. They may have unique features that make them more or less likely to fluctuate in value.</li>
+                                <li>Factors beyond ICONX&rsquo;s or Seller Platform&rsquo;s control, such as regulatory activity or unexplainable price volatility, may affect market liquidity for a particular digital asset. Blockchain networks may go offline as a result of bugs, forks or other unforeseeable reasons. Any digital asset may decrease in value or lose all of its value due to various factors including discovery of wrongful conduct, market manipulation, change to the nature or properties of the digital asset, governmental or regulatory activity, legislative changes, suspension or cessation of support for a digital asset or other platforms or service providers, public opinion, or other factors outside of our control. Technical advancements, as well as broader economic and political factors, may cause the value of any digital asset to change significantly over a short period of time.</li>
+                                <li>Understanding digital assets requires advanced technical knowledge. Digital assets are often described in exceedingly technical language that requires a comprehensive understanding of applied cryptography and computer code to appreciate the inherent risks. We provide no warranty as to the suitability of digital assets for any products and services under these Terms and assume no fiduciary duty to any and all Users in connection with such use of the services.</li>
+                                <li>Users accept all consequences of sending digital assets to an address off-the-platform. Digital asset transactions may not be reversible, which means that any accidental or fraudulent transactions in respect of digital assets may not be recoverable. Once a User sends any digital assets to an address, they accept the risk that theymay lose access to them indefinitely. For example, the network of the receiving wallet may be chosen incorrectly, or an address may have been entered incorrectly and the true owner of the address may never be discovered, or an address may belong to a person that will not return the digital assets.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Complex Products</strong>
+                            <ul>
+                                <li>Digital assets may be complex products by virtue that the terms, features and/or risk are not readily understood due to the complex structure, novelty and reliance on technological features.</li>
+                                <li>Digital assets wallets, including those of ICONX and a Seller Platform, have certain limitations and restrictions in terms of the digital assets that they can support. Users will be informed of such limitations and under no circumstance should a User attempt to store digital assets in their wallet that it does not support. Doing so may result in irrevocable loss of the unsupported digital asset. When a User creates a wallet, the wallet software generates a cryptographic private and public key pair that they may use to send and receive any supported digital assets via the relevant network.<br /> Users are advised to store, outside of the products, a backup of all wallet credentials, including their passphrases, identifiers, backup phrases, private keys, and network addresses. If a User does not maintain a backup of their wallet data outside of the Products, they will not be able to access digital assets previously accessed using their wallet in the event that we discontinue or no longer offer some or all of the products. We do not have access to such data and are therefore NOT responsible for maintaining it on a User&rsquo;s behalf. We do not receive or store any wallet passwords, keys, or network addresses, and hence cannot assist any User with the password retrieval for their wallet.<br /> <br /> ICONX and the Seller Platform have no control over any digital asset network and therefore cannot and do not ensure that any transaction details that a User submits using our products will be confirmed on the relevant digital asset network. The transaction details that a User submits using our products may not be completed or may be substantially delayed by the digital asset network used to process the transaction. We do not guarantee that the wallet can transfer the title or rights in any digital asset or make any warranties whatsoever with regard to the title. We shall not be responsible for any harm occurring as a result of the inability to reverse a transaction, and any losses in connection therewith due to erroneous or fraudulent actions.<br /> <br /> Since blockchain transactions are immutable, once transaction details have been submitted to a digital asset network, we cannot assist Users in cancelling or otherwise modifying their transaction or transaction details. We have no control over any digital asset network and do not have the ability to facilitate any cancellation or modification requests.<br /> </li>
+                            </ul>
+                        </li>
+                        <li><strong>Blacklisted Addresses and Forfeited Assets</strong><br /> ICONX and any of the affiliated Seller Platforms reserve the right to &lsquo;blacklist&rsquo; certain addresses and freeze associated assets (temporarily or permanently) that they determine, in its sole discretion, are associated with illegal activity or activity that otherwise violates the Terms ("Blacklisted Addresses"). If a User sends assets to a blacklisted address or receive assets from one, ICONX may freeze such assets and take steps to terminate their account.<br /> </li>
+                        <li>
+                            <strong>Reliance on Distributed Ledger Technology</strong>
+                            <ul>
+                                <li>Digital assets rely on various types of distributed ledger technology. Some of this technology is open-source software that is built upon experimental technology, namely blockchain. Risks arising from this reliance include the existence of technical flaws in the technology, targeting by malicious persons, majority-mining, consensus-based or other mining attacks, changes in the consensus protocol or algorithms, decreased community or miner support, rapid fluctuations in value of relevant digital assets, the existence or development of competing networks, platforms and assets, flaws in the scripting language, disputes between developers, miners and/or users and regulatory action.</li>
+                                <li>
+                                    The software protocols that underlie digital assets are typically open-source projects or are otherwise operated by third parties, which means that:
+                                    <ul>
+                                        <li>(i) The operations, functionalities, development and control of such digital assets and their underlying networks are outside of ICONX&rsquo;s control; AND</li>
+                                        <li>(ii) Such software protocols are subject to sudden and dramatic changes that might have a significant impact on the availability, usability or value of a given digital asset.<br /> </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <ol start="7">
+                        <li>
+                            <strong>Technology Challenges</strong>
+                            <ul>
+                                <li>Users must be aware and acknowledge that only they are responsible for securing their private key with respect to any address in their control. Lost or compromised control of their private key will permanently and irreversibly deny them access to their Digital Assets.</li>
+                                <li>
+                                    Users must understand that the platform&rsquo;s reliance on internet and technology, exposes them to an increased risk of fraud or cyber-attack which includes, but not limited to:
+                                    <ul>
+                                        <li>(i) Distributed denial of service;</li>
+                                        <li>(ii) Phishing;</li>
+                                        <li>(iii) Social engineering;</li>
+                                        <li>(iv) Hacking;</li>
+                                        <li>(v) Smurfing;</li>
+                                        <li>(vi) Malware;</li>
+                                        <li>(vii) Majority-mining &amp; other mining attacks:</li>
+                                        <li>(viii) Forks; AND</li>
+                                    </ul>
+                                </li>
+                                <li>Users must acknowledge that interruption, delay, corruption or loss of data, the loss of confidentiality in the transmission of data, or the transmission of malware may occur when transmitting data via the internet and/or other technologies which may result in delayed or non-execution of their instructions.</li>
+                                <li>The above events may affect the features, functions, operation, use, access or other properties of the digital assets, their account, their wallet, or an agreed communication method. The User alone is responsible for protecting themself against such actions.<br /> </li>
+                            </ul>
+                        </li>
+                        <li><strong>Digital Asset Creation and Distribution Risks</strong><br /> Risks also arise from the different ways in which digital assets are issued and distributed. There are several ways to create and issue digital assets. The use of proof-of-work mining requires significant energy and runs counter to the global aim of transitioning to a low-carbon economy. The environmental impact of mining carries both ethical and reputational risks.<br /> </li>
+                        <li>
+                            <strong>Operational Challenges</strong>
+                            <ul>
+                                <li>Users must be aware of and accept the risk of operational challenges that may impact the services. ICONX and/or a Seller Platform may experience sophisticated cyber-attacks, unexpected surges in activity or other operational or technical difficulties that may cause interruptions to the services. Users must understand that the services may experience operational issues that lead to delays.</li>
+                                <li>Users must also agree to accept the risk of transaction failure resulting from unanticipated or heightened technical difficulties, including those resulting from sophisticated attacks. They must agree not to hold ICONX nor the Seller Platform liable for any related losses.</li>
+                                <li>Users should acknowledge that the technology underlying digital assets is subject to change at any time, and such changes may affect their digital assets stored on the platform. The User is fully responsible for monitoring such technological changes and understanding their consequences with respect to their digital assets.</li>
+                                <li>Users acknowledge that they use the services on their own account and ICONX does not take any responsibility for any loss or damage incurred as a result of such a use or a failure to understand the risks associated with the use of digital assets or our Services.</li>
+                                <li>Digital assets depend on the availability and reliability of power, connectivity, and hardware. Interruption or failure of any of these things may disrupt the networks on which the digital assets rely and may affect a User&rsquo;s ability to access or transact in digital assets.<br /> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Compliance with Jurisdictional Laws</strong>
+                            <ul>
+                                <li>Users are responsible for complying with all applicable laws where they reside or where they access the services from. They agree that ICONX is not responsible for determining whether or which laws and regulations may apply to their transactions, including but not limited to tax laws and regulations. The User is solely responsible for reporting and paying any taxes arising from their use of the Services.</li>
+                                <li>Residents, tax residents or persons having a relevant connection with jurisdictions other than permitted jurisdictions are prohibited from using the ICONX platform and any of its services. Changes in a User&rsquo;s place of domicile or applicable law may result in such a User violating any legal or regulatory requirements of their applicable jurisdiction. It is the duty of a User to ensure that their usage of Services is, and remains lawful despite changes to applicable law, their residence and circumstances.</li>
+                                <li>Dealing in digital assets may be subject to the tax laws and regulations in a permitted jurisdiction. The tax treatment and accounting of digital assets (and any ancillary benefits) may vary amongst jurisdictions. If a User is unsure about the tax implications of their use of the services, they should seek independent professional advice.<br /> </li>
+                            </ul>
+                        </li>
+                        <li><strong>Reliance on Third parties &amp; Country Risks</strong></li>
+                    </ol>
+                    <p>The use of any services and the value of certain Digital Assets may rely on the acts of third parties or the fulfilment of related obligations by third parties. ICONX is not responsible for the acts or omissions of such third parties.</p>
+                    <p><strong>Usage of Services:</strong> <br /> Nothing on this website should be read or construed as constituting advice on the part of ICONX or any of its affiliates, directors, officers, or employees. The contents are for information and educational purposes only and ICONX assumes no liability for errors, inaccuracies, or omissions, nor does it warrant the accuracy, or completeness of information, text, graphics, links, or other items delivered or received via this domain. Any indication of past performance or simulated past performance included in advertisements published by ICONX is not a reliable indicator of future results. The User carries the sole responsibility for all the services that are carried out at ICONX.<br /> As a pre-requisite of visitation or use of this domain, Users agree to indemnify and hold ICONX and its employees and affiliates harmless from and against any and all losses, damages, liabilities, costs, charges, and expenses arising out of any use or reliance upon information obtained through this domain.</p>
+                    <p>By using the service, Users acknowledge that:</p>
+                    <ul>
+                        <li>They are aware of all the risks associated with the service;</li>
+                        <li>Have the financial capability to finance their participation;</li>
+                        <li>Their use of the platform, the service and content, is at their own discretion and risk; AND</li>
+                        <li>They will be solely responsible for any resulting consequences.</li>
+                    </ul>
+                    <h2>Warranties</h2>
+                    <p>The ICONX Platform and Services are provided on an "AS IS" and "AS AVAILABLE" basis, inclusive of all faults and defects. To the maximum extent permitted by applicable law, ICONX disclaims all representations and warranties, and any and all Users explicitly waive all warranties of any kind. This includes, but is not limited to, assurances regarding uninterrupted service, harmlessness, security, compatibility, meeting requirements, achieving intended benefits and results, error-free performance, and the correction of errors or defects. No warranties are provided concerning merchantability, suitability, reliability, availability, timeliness, accuracy, satisfactory quality, fitness for a particular purpose, quality, title, and non-infringement. This also extends to any services related to ICONX offered by third parties.</p>
+                    <p>Specifically, ICONX makes no representations and warranties, whether express, implied, statutory, or otherwise, regarding any payment services and systems provided by a third party or any other services related to the ICONX Platform and Services.</p>
+                    <p>Users acknowledge that they do not rely on, and have not been induced to accept, the ICONX Platform and any of its services, or the services provided by any of the Seller Platforms, based on any warranties, representations, covenants, undertakings, or any other statement whatsoever, other than those expressly set out in these Terms. ICONX, its agents, officers, employees, or advisers have not given any such warranties, representations, covenants, undertakings, or other statements.</p>
+                    <p><strong>Limitation Of Liability:</strong></p>
+                    <p>ICONX and its respective officers, employees, or agents will not be liable to any User or anyone else, to the maximum extent permitted by applicable law, for any damages of any kind, including, but not limited to, direct, consequential, incidental, special, or indirect damages. These damages include but are not limited to lost profits, digital asset losses, or damages resulting from the use or loss of use of ICONX Services or the seller platform, even if ICONX has been advised of the possibility of such damage or losses. This applies to the use or attempted use of the ICONX Platform and services, or other related websites or services.</p>
+                    <p>ICONX will not be responsible for any compensation, reimbursement, or damages arising from:</p>
+                    <ul>
+                        <li>A User&rsquo;s inability to use the ICONX Platform and Services, including any termination or suspension of the ICONX platform or these Terms, system failures, mistakes, omissions, errors, defects, viruses, delays in operation or transmission, or any failure of performance;</li>
+                        <li>Any investments, expenditures, or commitments in connection with these Terms or a User's use of or access to the ICONX Platform and services;</li>
+                        <li>Their reliance on any information obtained from ICONX;</li>
+                        <li>A Force Majeure event, communications failure, theft, or other interruptions; AND/OR</li>
+                        <li>Any unauthorized access, alteration, deletion, destruction, damage, loss, or failure to store any data, including records, private keys, or other credentials, associated with ICONX Platform and services or the Seller Platform.</li>
+                    </ul>
+                    <p>Users agree to defend, indemnify, and hold ICONX and its respective employees, officers, directors, and representatives harmless from any claims, demands, action, damages, loss, liabilities, costs, and expenses (including reasonable attorney fees) arising from or relating to:</p>
+                    <ul>
+                        <li>Any third-party claim concerning these Terms;</li>
+                        <li>Their use of, or conduct in connection with, ICONX Platform and services;</li>
+                        <li>Any feedback that the User provides;</li>
+                        <li>A violation or disregard of these Terms; AND/OR</li>
+                        <li>A violation of any rights of any other person or entity.</li>
+                    </ul>
+                    <p>If a User is obligated to indemnify us, we reserve the right, in our sole discretion, to control any action or proceeding (at our expense) and determine whether we wish to settle it. If we are obligated to respond to a third-party subpoena or other compulsory legal order or process, the associated User will reimburse us for reasonable attorney fees, as well as our employees' and contractors' time and materials spent responding to the third-party subpoena or other compulsory legal order or process at reasonable hourly rates.</p>
+                    <p>The information, products, and services included in or available through ICONX may include inaccuracies or typographical errors. Improvements and changes are periodically added to the information in the ICONX Platform and can be made at any time.</p>
+                    <h2>Rights and Obligations</h2>
+                    <p>In case of a dispute with a User, ICONX is required to substantiate that the ICONX service under dispute was not impacted by technical or other failures. Users have the opportunity, contingent on technical availability, to review transaction details, statistics, and the available balance on the ICONX platform or affiliated third-party platforms at any time by accessing their account.</p>
+                    <p>Users are prohibited from acquiring or attempting to acquire any materials or information through means not intentionally made available or provided to them or the public through the ICONX Platform and Services.</p>
+                    <p>We reserve the right, at our sole discretion, at any time, for any or no reason, and without liability to any User, with prior notice to:</p>
+                    <ul>
+                        <li>Terminate all rights and obligations between a User and ICONX as derived from these Terms.</li>
+                        <li>Suspend access to all or a portion of ICONX Services, the Seller Platform, and its related services, or any portion thereof, and delete or deactivate a User&rsquo;s ICONX Account along with all related information and files in such an account.</li>
+                        <li>Modify, suspend, or discontinue, temporarily or permanently, any portion of ICONX Platform and services.</li>
+                        <li>Provide enhancements or improvements to the features and functionality of the ICONX Platform and services, including patches, bug fixes, updates, upgrades, and other modifications.</li>
+                    </ul>
+                    <p>Any such change may alter or remove specific portions, features, or functionalities of the ICONX Services. Users agree that ICONX is not obligated to provide any updates or continue to offer or enable any particular portion, features, or functionalities of the ICONX Services to them. Furthermore, Users acknowledge that all changes will be considered an integral part of the ICONX Platform, subject to these Terms.</p>
+                    <p>In the event of a breach of these Terms or any related platform policies and agreements by a User, including, but not limited to, legal grounds related to anti-money laundering regulations, or other applicable regulations, all rights and obligations between the said User and ICONX as derived from these Terms and platform policies and agreements automatically terminate if they fail to comply within the notice period of three (3) days after being warned by ICONX about the breach. ICONX reserves the right to maintain these rights and obligations despite the User&rsquo;s breach.</p>
+                    <p>Upon termination, ICONX will make reasonable efforts to facilitate the return of any funds of a User stored on the ICONX platform or Seller Platform unless fraud, negligence, or other misconduct is suspected by ICONX. The User acknowledges that their account on ICONX Platform or the Seller Platform account may be suspended.</p>
+                    <h2>Intellectual Property</h2>
+                    <p>All copyright and intellectual property rights, encompassing inventions, discoveries, know-how, processes, marks, methods, compositions, formulae, techniques, information, content and data, whether or not eligible for patent, copyright, or trademark protection, as well as any trademarks, copyrights, or patents derived from them, are retained by ICONX. This pertains to the comprehensive content and materials found on the ICONX Platform or provided in conjunction with the Services, including but not limited to the ICONX logo, designs, text, graphics, images, information, data, software, source code, and their compilation. The safeguarding of this material is governed by international copyright and intellectual property laws, particularly trademarks. These Terms should not be construed to imply the assignment of copyright or other intellectual property rights unless explicitly specified in these Terms.</p>
+                    <p>ICONX hereby grants Users a limited, nonexclusive, and non-sublicensable license to access and use ICONX's copyrighted content, works, and other intellectual property for their personal use. This license is contingent upon compliance with these Terms and strictly prohibits modifying, making derivative uses, publishing, transmitting, reverse engineering, or exploiting the copyrighted work and other intellectual property beyond their intended purposes. The granted license automatically terminates if ICONX suspends or terminates a User&rsquo;s access to the services or their ICONX account.</p>
+                    <p>Exclusive rights, including all intellectual property rights, to any feedback provided by a User concerning ICONX Services or related products, such as information, content, suggestions, ideas, or other materials conveyed through email, posts on the ICONX Platform, ICONX account, or otherwise, shall be owned by ICONX. All Users irrevocably assign any and all intellectual property rights related to such feedback, without limitation in time, scope, or territory. Any feedback submitted is considered non-confidential and becomes the sole property of ICONX, entitling ICONX to unrestricted use, modification, or dissemination of the feedback for any purpose, commercial or otherwise, without acknowledgment or compensation to the User. By submitting feedback, the User waives any rights they may have to it. We reserve the right to remove any postings on the ICONX Platform that, in our opinion, do not comply with the content standards defined by these Terms.</p>
+                    <h2>Final Provisions</h2>
+                    <p>Persons lacking the capacity to assume legal rights and obligations are prohibited from creating an ICONX account and/or utilizing the ICONX Platform and Services. If ICONX identifies such an account creation or usage by any individual or legal entity, ICONX will promptly delete the account, deactivate associated services, and block access to both the ICONX account and services.</p>
+                    <p>Should any provision of these Terms become illegal, invalid, or unenforceable, the legality, validity, and enforceability of the remaining provisions will remain unaffected. The problematic provision will be considered modified and replaced by a legally valid and enforceable provision or arrangement that aligns as closely as possible with the intent and business purpose reflected in these Terms.</p>
+                    <p>Any failure or delay on our part to enforce any right or legal remedy specified in these Terms does not constitute a waiver, nor does any partial exercise of such rights or remedies impede further enforcement or the exercise of other rights or remedies.</p>
+                    <p>ICONX reserves the unilateral right to modify, amend, supplement, or alter these Terms at its discretion and for any reason. Users are advised to periodically review these Terms, with any changes becoming effective upon continued use of ICONX Services. Users who disagree with the alterations must discontinue using ICONX Services, communicate their disagreement, and request the closure of their ICONX account within fourteen (14) days of the published alteration. Failure to express disagreement in the aforementioned time will be deemed as acceptance of the modified Terms. Assignment or transfer of rights or obligations under these Terms requires prior written consent from ICONX, while ICONX may freely assign or transfer its rights without user consent.</p>
+                    <p>These Terms are governed, construed, and enforced in accordance with the Laws of the United Arab Emirates and shall be interpreted as a United Arab Emirates contract. Any transaction, dispute, controversy, claim, or action arising from or related to the ICONX Platform, or these Terms will be governed by the Laws of the UAE, excluding choice-of-law principles.</p>
+                    <p>The rights and remedies granted to ICONX by these Terms are cumulative and additional to all other rights and remedies available to ICONX under the law.</p>
+                    <p>ICONX reserves the right to transfer its rights and obligations under these Terms to other entities or any firm acquiring all or substantially all of ICONX's assets or business. Users who do not consent to such transfer can terminate the agreement and close their ICONX account.</p>
+                    <p>CTA: <strong>I Agree</strong> &lt;Acceptance of Terms&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CTA: <strong>Become a Promoter</strong> &lt;Opens Promoter Agreement&gt;</p>
+                    
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">I agree to the Terms & Conditions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_Scripts" />
+    @await Component.InvokeAsync("Notyf")
+    <script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $("#CountryId").select2({
+            placeholder: "Select a Country",
+            theme: "bootstrap4",
+            escapeMarkup: function (m) {
+                return m;
+            }
+        });
+    </script>
+</body>
+</html>

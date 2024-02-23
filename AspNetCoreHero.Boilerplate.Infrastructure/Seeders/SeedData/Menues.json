@@ -1,0 +1,106 @@
+[
+  {
+    "ApplicationId": 1,
+    "Title": "Dashboard",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Profile",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Genealogy",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Downline Management",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Earnings",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Sales and Recruitment",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Rank and Achievements",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Reports",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Marketing Tools",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Support and Help Center",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Notifications",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Settings",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  },
+  {
+    "ApplicationId": 1,
+    "Title": "Log Out",
+    "Controller": "",
+    "Action": "",
+    "Icon": "",
+    "ParentMenuItemId": ""
+  }
+]

@@ -1,0 +1,965 @@
+﻿@{
+    ViewData["Title"] = localizer["Media Centre"];
+    ViewData["Caption"] = localizer["Manage Downloads here"];
+}
+@using AspNetCoreHero.Boilerplate.Web.Areas.App.Models
+@model DownloadsViewModel
+<div class="card">
+    @* <div class="col-sm-12" style="padding:20px">
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Brands.Create)).Result.Succeeded)
+    {
+    <a onclick="jQueryModalGet('/app/brand/OnGetCreateOrEdit','Create Brand')" class="btn bg-success">
+    <i class="fa fa-plus-square"></i> Create
+    </a>
+    }
+    </div> *@
+    @* <div id="viewAll" class="card-body table-responsive">
+    </div> *@
+    <div class="row">
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/pdf.png" height="100" />
+                    <span class="doc-type">Document (PDF)</span>
+                    <h5 class="doc-name">ICONX Presentation_Feb2024</h5>
+                    <span class="doc-size">3.19 MB</span>
+                    <a href="~/images/ICONX_PRESENTATION_19FEB24.pdf" download="~/images/ICONX_PRESENTATION_19FEB24.pdf" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/gallery.png" height="100" />
+                    <span class="doc-type">Image (PNG)</span>
+                    <h5 class="doc-name">February Campaign</h5>
+                    <span class="doc-size">5.82 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-1"><i class="fas fa-solid fa-eye"></i> Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/gallery.png" height="100" />
+                    <span class="doc-type">Image (PNG)</span>
+                    <h5 class="doc-name">Launch Campaign</h5>
+                    <span class="doc-size">543 KB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-2"><i class="fas fa-solid fa-eye"></i> Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">ICONX Teaser</h5>
+                    <span class="doc-size">150 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-4"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Bitcoin</h5>
+                    <span class="doc-size">23.0 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-5"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Bitcoin Mining</h5>
+                    <span class="doc-size">23.0 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-6"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Bitcoin Mining Rewards</h5>
+                    <span class="doc-size">19.8 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-7"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Blockchain</h5>
+                    <span class="doc-size">24.8 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-8"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">The Evolution of Bitcoin Mining - From CPUs to ASIC</h5>
+                    <span class="doc-size">20.2 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-9"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Mining at Home or Using a Host</h5>
+                    <span class="doc-size">25.6 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-10"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Types of Bitcoin Wallets</h5>
+                    <span class="doc-size">31.9 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-11"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">How to Send and Receive Bitcoin</h5>
+                    <span class="doc-size">25.9 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-12"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Bitcoin Halving</h5>
+                    <span class="doc-size">19.1 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-13"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Who is Satoshi Nakamoto</h5>
+                    <span class="doc-size">29.1 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-14"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Bitcoin Hashrate</h5>
+                    <span class="doc-size">26.6 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-15"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is BTC Mining Difficulty</h5>
+                    <span class="doc-size">22.5 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-16"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is a Mining Pool</h5>
+                    <span class="doc-size">22.7 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-17"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Bitcoin Tracking on CoinMarketCap</h5>
+                    <span class="doc-size">24.3 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-18"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Bitcoin Miner Hosting</h5>
+                    <span class="doc-size">25.2 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-19"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">What is Decentralization</h5>
+                    <span class="doc-size">31.6 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-20"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Bitcoin Block Explorer</h5>
+                    <span class="doc-size">26.3 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-21"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">BTC Transaction Fees through MR wallet</h5>
+                    <span class="doc-size">5.43 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-22"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Buy a miner</h5>
+                    <span class="doc-size">13.9 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-23"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Dubai Dreamers_ From Dubai to the World with Mining Grid</h5>
+                    <span class="doc-size">44.4 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-24"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Managing links</h5>
+                    <span class="doc-size">7.05 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-25"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Mining Race Setup Guide</h5>
+                    <span class="doc-size">7.07 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-26"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-4">
+            <div class="card card-comments card-box shadow card-block">
+                <div class="download-card d-flex flex-column align-items-center">
+                    <img src="~/images/video.png" height="100" />
+                    <span class="doc-type">Video (mp4)</span>
+                    <h5 class="doc-name">Speed Mining Video</h5>
+                    <span class="doc-size">7.47 MB</span>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#previewImage-27"><i class="fas fa-solid fa-eye"></i> Watch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-1" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Campaign</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="~/images/February-Campagin.jpg" class="img-fluid" style="height: calc(100vh - 220px); margin: 0 auto; display: block;" />
+            </div>
+            <div class="modal-footer">
+                <a href="" download="~/images/Launch-campagin.jpg" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-2" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Campaign</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="~/images/Launch-campagin.jpg" class="img-fluid" style="height: calc(100vh - 220px); margin: 0 auto; display: block;" />
+            </div>
+            <div class="modal-footer">
+                <a href="" download="~/images/Launch-campagin.jpg" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-3" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Campaign</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="~/images/Launch-campagin.jpg" class="img-fluid" style="height: calc(100vh - 220px); margin: 0 auto; display: block;" />
+            </div>
+            <div class="modal-footer">
+                <a href="" download="~/images/Launch-campagin.jpg" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-4" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Campaign</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/__images_ICONX-TEASER.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/__images_ICONX-TEASER.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-5" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Bitcoin</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-6" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Bitcoin Mining</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Mining.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Mining.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-7" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Bitcoin Mining Rewards</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Mining-Rewards.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Mining-Rewards.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-8" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Blockchain</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Blockchain.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Blockchain.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-9" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">The Evolution of Bitcoin Mining - From CPUs to ASIC</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/The-Evolution-of-Bitcoin-Mining-From-CPUs-to-ASIC.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/The-Evolution-of-Bitcoin-Mining-From-CPUs-to-ASIC.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-10" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Mining at Home or Using a Host</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Mining-at-Home-or-Using-a-Host.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Mining-at-Home-or-Using-a-Host.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-11" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Types of Bitcoin Wallets</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Types-of-Bitcoin-Wallets.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Types-of-Bitcoin-Wallet.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-12" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">How to Send and Receive Bitcoin</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/How-to-Send-and-Receive-Bitcoin.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/How-to-Send-and-Receive-Bitcoin.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-13" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Bitcoin Halving</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Halving.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Halving.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-14" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Who is Satoshi Nakamoto</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Who-is-Satoshi-Nakamoto.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Who-is-Satoshi-Nakamoto.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-15" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Bitcoin Hashrate</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Hashrate.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Hashrate.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-16" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is BTC Mining Difficulty</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-BTC-Mining-Difficulty.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-BTC-Mining-Difficulty.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-17" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is a Mining Pool</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-a-Mining-Pool.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-a-Mining-Pool.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-18" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Bitcoin Tracking on CoinMarketCap</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Tracking-on-CoinMarketCap.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Tracking-on-CoinMarketCap.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-19" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Bitcoin Miner Hosting</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Miner-Hosting.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Bitcoin-Miner-Hosting.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-20" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">What is Decentralization</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Decentralization.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/What-is-Decentralization.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-21" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Bitcoin Block Explorer</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Block-Explorer.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Bitcoin-Block-Explorer.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-22" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">BTC Transaction Fees through MR wallet</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/BTC-Transaction-Fees-through-MR-wallet.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/BTC-Transaction-Fees-through-MR-wallet.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-23" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Buy a miner</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Buy-a-miner.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Buy-a-miner.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-24" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Dubai Dreamers_ From Dubai to the World with Mining Grid</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Dubai-Dreamers-From-Dubai-to-the-World-with-Mining-Grid.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Dubai-Dreamers-From-Dubai-to-the-World-with-Mining-Grid.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-25" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Managing links</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Managing-links.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Managing-links.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-26" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Mining Race Setup Guide</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Mining-Race-Setup-Guide.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Mining-Race-Setup-Guide.mp4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewImage-27" tabindex="-1" role="dialog" aria-labelledby="previewImageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="previewImageLabel">Speed Mining Video</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <video controls class="w-100" style="height: calc(100vh - 220px);">
+                    <source src="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Speed-Mining-Video.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="" download="https://iconxmediabucket.s3.me-central-1.amazonaws.com/Speed-Mining-Video.MP4" target="_blank" class="btn btn-primary"><i class="fas fa-solid fa-download"></i> Download</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#downloadsTable").DataTable();
+            loadData();
+            $('#reload').on('click', function () {
+                loadData();
+            });
+        });
+        function loadData() {
+            $('#viewAll').load('/app/brand/LoadAll');
+        }
+
+
+        $(document).ready(function () {
+            $('#previewImage-4').on('shown.bs.modal', function () {
+                // Attempt to play the video when the modal is fully visible
+                var video = $(this).find("video")[0]; // Adjust the selector as needed
+                video.play().catch(function (error) {
+                    console.error("Video playback failed: ", error);
+                    // Handle the error, for example, by showing play controls or a play button
+                });
+            });
+
+            $('#previewImage-4').on('hide.bs.modal', function () {
+                // Pause and reset the video when the modal is closed
+                var video = $(this).find("video")[0]; // Adjust the selector as needed
+                video.pause();
+                video.currentTime = 0;
+            });
+        });
+
+    </script>
+}

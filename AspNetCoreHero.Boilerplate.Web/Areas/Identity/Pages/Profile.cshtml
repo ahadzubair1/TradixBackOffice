@@ -1,0 +1,416 @@
+﻿@page
+@{
+    ViewData["Title"] = localizer["Profile"];
+    ViewData["Caption"] = localizer[""];
+}
+@model AspNetCoreHero.Boilerplate.Web.Areas.Identity.Pages.ProfileModel
+@* <div class="d-sm-flex align-items-center justify-content-between">
+    <h1 class="h5 mb-4 text-gray-800">@Model.FirstName @Model.LastName</h1>
+    <div id="userRoles" style="padding: 20px 20px 20px 0px">
+        @foreach (var role in Model.Roles)
+        {
+            <span class="badge badge-success">@role</span>
+        }
+    </div>
+</div> *@
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary user-card-full">
+            <div class="row">
+
+                <div class="col-sm-8">
+                    <div class="card-block">
+                        <h6 class="pb-2 mb-4 b-b-default font-weight-bold">Personal Details</h6>
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <p class="f-w-600">First Name</p>
+                                <h6 class="text-muted f-w-400">@Model.FirstName</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Last Name</p>
+                                <h6 class="text-muted f-w-400">@Model.LastName</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Username</p>
+                                <h6 class="text-muted f-w-400">@Model.Username</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Nationality</p>
+                                <h6 class="text-muted f-w-400">@Model.Country</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Date of Birth</p>
+                                <h6 class="text-muted f-w-400">@Model.DateOfBirth</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Phone</p>
+                                <h6 class="text-muted f-w-400">@Model.PhoneNumber</h6>
+                            </div>
+                        </div>
+                        <h6 class="my-4 pb-2 b-b-default font-weight-bold">My Subscription</h6>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="s-card m-0 l-bg-blue-dark">
+                                    <div class="card-statistic-3 p-4">
+                                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                                        <div class="mb-4">
+                                            <h5 class="card-title mb-0">Spot License</h5>
+                                        </div>
+                                        <div class="row align-items-center mb-2 d-flex">
+                                            <div class="col-8">
+                                                <h2 class="d-flex align-items-center mb-0">
+                                                    $100
+                                                </h2>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <button class="d-inline-flex btn align-items-center text-white">Upgrade <i class="fa fa-arrow-up ml-2"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1" data-height="8" style="height: 8px;">
+                                            <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 class="my-4 pb-2 b-b-default font-weight-bold">Referral Link</h6>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="f-w-600"><i class="fas fa-solid fa-arrow-left" style="transform: rotate(-45deg)"></i> Far Left</p>
+                                <div class="linkbox">
+                                    <span>@Model.LeftReferralCode</span>
+                                    <span>
+                                        <i class="fas fa-solid fa-copy text-cyan" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                    </span>
+                                </div>
+                                <h6 class="text-muted f-w-400">
+                                    @* @{
+                                    foreach (var code in Model.ReferralCodes)
+                                    {
+                                    if (code.Position.ToLower().Equals("left"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    if (code.Position.ToLower().Equals("right"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    }
+                                    } *@
+                                </h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Alternate</p>
+                                <div class="linkbox">
+                                    <span>@Model.AutoReferralCode</span>
+                                    <span>
+                                        <i class="fas fa-solid fa-copy text-cyan" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                    </span>
+                                </div>
+                                <h6 class="text-muted f-w-400">
+                                    @* @{
+                                    foreach (var code in Model.ReferralCodes)
+                                    {
+                                    if (code.Position.ToLower().Equals("left"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    if (code.Position.ToLower().Equals("right"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    }
+                                    } *@
+                                </h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="f-w-600">Far Right <i class="fas fa-solid fa-arrow-right" style="transform: rotate(45deg)"></i></p>
+                                <div class="linkbox">
+                                    <span>@Model.RightReferralCode</span>
+                                    <span>
+                                        <i class="fas fa-solid fa-copy text-cyan" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                    </span>
+                                </div>
+                                <h6 class="text-muted f-w-400">
+                                    @* @{
+                                    foreach (var code in Model.ReferralCodes)
+                                    {
+                                    if (code.Position.ToLower().Equals("left"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    if (code.Position.ToLower().Equals("right"))
+                                    {
+                                    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+                                    }
+                                    }
+                                    } *@
+                                </h6>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4 bg-c-lite-green user-profile d-flex align-items-center justify-content-center">
+                    <div class="card-block text-center text-white w-100">
+                        <div class="mb-4">
+                            @if (Model.ProfilePicture != null)
+                            {
+                                <img id="viewableImage" alt="Profile Picture of @Model.Username" width="200" height="200" class="img-circle img-bordered" style="object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+                            }
+                            else
+                            {
+                                <img id="viewableImage" alt="Profile Picture of @Model.Username" width="200" height="200" class="img-circle img-bordered" style="object-fit:cover" src="~/images/default-user.png">
+                            }
+                        </div>
+                        <h4 class="f-w-600">@Model.FirstName @Model.LastName</h4>
+                       @*  <p>Web Designer</p>
+                        <ul class="social-link p-0">
+                            <li><a href="#!" class="text-white"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#!" class="text-white"><i class="mdi mdi-twitter feather icon-twitter twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#!" class="text-white"><i class="mdi mdi-instagram feather icon-instagram instagram" aria-hidden="true"></i></a></li>
+                        </ul> *@
+                        <a class="small btn btn-outline-light" asp-area="Identity" asp-page="/account/manage/email">
+                            <i class="fas fa-solid fa-marker"></i>&nbsp; @localizer["Edit Profile"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    @if (User.IsInRole("SuperAdmin"))
+    {
+        if (!Model.IsSuperAdmin)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 text-secondary">Admin Area</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col">
+                                            @if (!@Model.IsActive)
+                                            {
+                                                <form method="post" style="display: inline-flex;">
+                                                    <button style='margin-right:16px' type="submit" id="activate-profile" asp-route-userId="@Model.UserId" asp-page-handler="ActivateUser" class="btn btn-success btn-sm">
+                                                        Activate
+                                                    </button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form method="post" style="display: inline-flex;">
+                                                    <button style='margin-right:16px' type="submit" class="btn btn-danger btn-sm" asp-route-userId="@Model.UserId" asp-page-handler="DeActivateUser">
+                                                        Deactivate
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+
+    @* <div class="row">
+    <div class="col-sm-4">
+    <div class="nav flex-column nav-pills h-100" id="vert-tabs-tab" role="tablist" aria-orientation="horizontal">
+    <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Personal Information</a>
+    <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Password & 2FA</a>
+    </div>
+    </div>
+    <div class="col-sm-8">
+    <div class="tab-content" id="vert-tabs-tabContent">
+    <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+    <form>
+    <div class="card-body">
+    <div class="row">
+    <div class="col-md-6">
+    <div class="card">
+    <div class="card-header py-3">
+    <h6 class="m-0 text-secondary">Profile Picture</h6>
+    </div>
+    <div class="card-body">
+    <div class="row no-gutters align-items-center">
+    <div class="col">
+    @if (Model.ProfilePicture != null)
+    {
+    <img id="viewableImage" alt="Profile Picture of @Model.Username" style="width:inherit; height:220px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+    }
+    else
+    {
+    <img id="viewableImage" alt="Profile Picture of @Model.Username" style="width:inherit; height:220px; object-fit:cover" src="~/images/default-user.png">
+    }
+    </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="card card-primary card-outline mb-3">
+    <div class="card-header">
+    <h3 class="card-title">
+    <i class="fas fa-solid fa-link"></i>
+    Referral Link
+    </h3>
+
+    <div class="card-tools">
+    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+    <i class="fas fa-minus"></i>
+    </button>
+    </div>
+    </div>
+    <div class="card-body">
+    @{
+    foreach (var code in Model.ReferralCodes)
+    {
+    if (code.Position.ToLower().Equals("left"))
+    {
+    <div class="reflink">
+    <label>Far Left</label>
+    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+    </div>
+    }
+    if (code.Position.ToLower().Equals("right"))
+    {
+    <div class="reflink">
+    <label>Far Right</label>
+    <div class="linkbox"><span>@code.Code</span><span><i class="fas fa-solid fa-copy"></i></span></div>
+    </div>
+    }
+    }
+    }
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="form-group col-sm-6">
+    <label for="firstname">First Name</label>
+    <input type="text" class="form-control" id="firstname" readonly placeholder="John">
+    </div>
+    <div class="form-group col-sm-6">
+    <label for="lastname">Last Name</label>
+    <input type="text" class="form-control" id="lastname" readonly placeholder="Doe">
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-group col-sm-6">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" id="username" readonly placeholder="Username">
+    </div>
+    <div class="form-group col-sm-6">
+    <label for="nationality">Nationality</label>
+    <select class="form-control" id="nationality" readonly>
+    <option>Australia</option>
+    <option>Canada</option>
+    <option>United Kingdom</option>
+    </select>
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-group col-sm-6">
+    <label for="DOB">Date of Birth</label>
+    <input type="datetime-local" class="form-control" id="DOB" readonly placeholder="Date of Birth">
+    </div>
+    <div class="form-group col-sm-6">
+    <label for="mobile">Contact/Mobile</label>
+    <input type="tel" class="form-control" id="mobile" readonly placeholder="+971565998667">
+    </div>
+    </div>
+    </div>
+    <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+    </form>
+    </div>
+    <div class="tab-pane" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+    <form>
+    <div class="card-body">
+    <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" value="*******" readonly id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-group">
+    <label for="exampleInputPassword1">2 Factor Authentication</label>
+    <a class="small btn btn-outline-info" asp-area="Identity" asp-page="/account/manage/twofactorauthentication"> @localizer["Enable Now"]</a>
+    </div>
+    </div>
+
+    <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div> *@
+</div>
+
+@section Scripts
+{
+    <script src="~/js/imageModal.js"></script>
+}
+
+    <script>
+    // Copy Referral Code
+    function copyToClipboard(elem) {
+        var textToCopy = elem.parentNode.previousElementSibling.innerText;
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(textToCopy).then(function () {
+                showTooltip(elem, 'Copied!');
+            }).catch(function (error) {
+                console.error('Error copying text to clipboard', error);
+                alert("Failed to copy to clipboard");
+            });
+        } else {
+            // Fallback for browsers where clipboard API is not available
+            try {
+                var tempInput = document.createElement("input");
+                document.body.appendChild(tempInput);
+                tempInput.value = textToCopy;
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+
+                showTooltip(elem, 'Copied!');
+            } catch (error) {
+                console.error('Fallback error copying text to clipboard', error);
+                alert("Failed to copy to clipboard");
+            }
+        }
+    }
+
+    function showTooltip(elem, message) {
+        $(elem).attr('data-original-title', message).tooltip('show');
+        setTimeout(function () {
+            $(elem).tooltip('hide');
+            // Reset tooltip message if needed
+            setTimeout(function () {
+                $(elem).attr('data-original-title', 'Copy to Clipboard');
+            }, 1000);
+        }, 2000);
+    }
+    </script>

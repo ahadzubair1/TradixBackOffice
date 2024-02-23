@@ -1,0 +1,264 @@
+﻿@model AspNetCoreHero.Boilerplate.Web.Areas.Account.Controllers.NetworkTreeViewModel
+@using Newtonsoft.Json;
+@using System.Web
+
+@{
+    ViewData["Title"] = localizer["Community"];
+    ViewData["Caption"] = localizer[""];
+}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tree ul {
+        padding-top: 20px;
+        position: relative;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+    }
+
+    .tree li {
+        float: left;
+        text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: 20px 2px 0 2px;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+    }
+
+    .tree ul:empty {
+        display: none;
+    }
+
+
+    /*We will use ::before and ::after to draw the connectors*/
+
+    .tree li::before, .tree li::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 50%;
+        border-top: 2px solid #521e7a;
+        width: 50%;
+        height: 20px;
+    }
+
+    .tree li::after {
+        right: auto;
+        left: 50%;
+        border-left: 2px solid #521e7a;
+    }
+
+    /*We need to remove left-right connectors from elements without
+                        any siblings*/
+    .tree li:only-child::after, .tree li:only-child::before {
+        display: none;
+    }
+
+    /*Remove space from the top of single children*/
+    .tree li:only-child {
+        padding-top: 0;
+    }
+
+    /*Remove left connector from first child and
+                        right connector from last child*/
+    .tree li:first-child::before, .tree li:last-child::after {
+        border: 0 none;
+    }
+    /*Adding back the vertical connector to the last nodes*/
+    .tree li:last-child::before {
+        border-right: 2px solid #521e7a;
+        border-radius: 0 5px 0 0;
+        -webkit-border-radius: 0 5px 0 0;
+        -moz-border-radius: 0 5px 0 0;
+    }
+
+    .tree li:first-child::after {
+        border-radius: 5px 0 0 0;
+        -webkit-border-radius: 5px 0 0 0;
+        -moz-border-radius: 5px 0 0 0;
+    }
+
+    /*Time to add downward connectors from parents*/
+    .tree ul ul::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #521e7a;
+        width: 0;
+        height: 20px;
+    }
+
+    .tree li a {
+        position: relative;
+        padding: 10px;
+        gap: 5px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 12px;
+        text-transform: capitalize;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        box-shadow: 0 3px 6px 0px #4a31b394;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        /* animation: gradientAnimation forwards 2s infinite; */
+        animation-timing-function: linear;
+        width: 100px;
+    }
+
+        .tree li a span {
+            font-weight: 600;
+        }
+
+            .tree li a span.user-name {
+                font-size: 12px;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: center;
+            }
+
+    /*Time for some hover effects*/
+    /*We will apply the hover effect the the lineage of the element also*/
+    /* .tree li a:hover, .tree li a:hover + ul li a {
+                                background: #c8e4f8;
+                                color: #000;
+                                border: 1px solid #94a0b4;
+                            } */
+    /*Connector styles on hover*/
+    /* .tree li a:hover + ul li::after,
+                                .tree li a:hover + ul li::before,
+                                .tree li a:hover + ul::before,
+                                .tree li a:hover + ul ul::before {
+                                    border-color: #94a0b4;
+                                } */
+</style>
+<div class="card w-masterhead network-bg">
+    <div class="row align-items-center p-5 text-white">
+        <div class="col d-md-flex align-items-center" style="gap: 20px;">
+            <img src="/images/teamwork.gif" width="120" class="img-fluid mr-4 img-circle">
+            <h4>My Network: </h4>
+            <h1>0</h1><span>Referrals</span>
+        </div>
+    </div>
+</div>
+<div class="card card-primary card-tabs tree-tabs">
+    <div class="card-header p-0">
+        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Network Tree</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Grid View <span class="upcoming">Upcoming</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-one-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                <div id="orgChartContainer">
+                    <div class="row mb-4 tree-controls">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user fa-sm fa-fw text-gray-400"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Find a user">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group w-100">
+
+
+                                <a href="@Html.Raw($"/account/networks?id={@Model.Farleft}")" class="btn btn-success col fileinput-button dz-clickable">
+                                    <i class="fas fa-solid fa-arrow-left" style="transform: rotate(-45deg)"></i>
+                                    <span>Far Left</span>
+                                </a>
+                                <a href="@Html.Raw($"/account/networks")" class="btn btn-primary col start" onclick="submitForm()">
+                                    <span>Top</span>
+                                </a>
+
+                                <a href="@Html.Raw($"/account/networks?id={@Model.FarRight}")" class="btn btn-warning col cancel" onclick="resetForm()">
+                                    <i class="fas fa-solid fa-arrow-right" style="transform: rotate(45deg)"></i>
+                                    <span>Far Right</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="orgChart">@Html.Raw(Model.Html)</div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                <div id="orgChartContainer" class="bg-white">
+                    <div class="no-data d-flex align-items-center justify-content-center flex-column">
+                        <img src="~/images/nodata.gif" width="100" />
+                        Nothing Found...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*  <div id="consoleOutput">
+    </div> *@
+@* <div id="mlm-tree"></div> *@
+@* @section Scripts
+{
+    <script type="text/javascript">
+
+        @{
+            string data = @JsonConvert.SerializeObject(Model.Nodes);
+        }
+
+        var testData = JSON.parse('@Html.Raw(HttpUtility.JavaScriptStringEncode(data))');
+        console.log(testData);
+        // var testData = [
+        //     { id: "1", name: 'Root', parent: "0" },
+        //     { id: "2", name: 'C1', parent: "1" },
+        //     { id: "3", name: 'C2', parent: "1" },
+        //     { id: "4", name: 'C3', parent: "2" },
+        //     { id: "6", name: 'C4', parent: "2" },
+        //     { id: "7", name: 'C5', parent: "3" },
+        //     { id: "8", name: 'C6', parent: "3" },
+        //     { id: "5", name: 'C7', parent: "4" },
+
+        // ];
+
+
+        $(function () {
+            org_chart = $('#orgChart').orgChart({
+                data: testData,
+                showControls: false,
+                allowEdit: false
+            });
+        });
+
+        // just for example purpose
+        // function log(text) {
+        //     $('#consoleOutput').append('<p>' + text + '</p>')
+        // }
+    </script>
+} *@
+
+<script>
+    window.onload = function () {
+        var scrollableDiv = document.getElementById('orgChartContainer');
+        // Calculate the middle position
+        var middleScrollPosition = scrollableDiv.scrollWidth / 2 - scrollableDiv.clientWidth / 2;
+        // Scroll to the middle
+        scrollableDiv.scrollLeft = middleScrollPosition;
+    };
+</script>

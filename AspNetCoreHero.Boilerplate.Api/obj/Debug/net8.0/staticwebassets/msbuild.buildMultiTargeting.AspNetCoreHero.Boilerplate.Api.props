@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\AspNetCoreHero.Boilerplate.Api.props" />
+</Project>

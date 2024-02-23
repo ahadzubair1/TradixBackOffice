@@ -1,0 +1,14 @@
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\bin\Debug\net8.0\AspNetCoreHero.Extensions.Logging.deps.json
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\bin\Debug\net8.0\AspNetCoreHero.Extensions.Logging.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\bin\Debug\net8.0\AspNetCoreHero.Extensions.Logging.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\bin\Debug\net8.0\AspNetCoreHero.Extensions.Logging.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.csproj.AssemblyReference.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.AssemblyInfoInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.AssemblyInfo.cs
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.csproj.CoreCompileInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\refint\AspNetCoreHero.Extensions.Logging.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\AspNetCoreHero.Extensions.Logging.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Extensions.Logging\obj\Debug\net8.0\ref\AspNetCoreHero.Extensions.Logging.dll

@@ -1,0 +1,553 @@
+﻿@model AspNetCoreHero.Boilerplate.Web.Areas.Dashboard.Models.DashboardViewModel
+@using Newtonsoft.Json;
+@using System.Web
+@{
+    ViewData["Title"] = localizer["Dashboard"];
+    ViewData["Caption"] = localizer[""];
+}
+
+<!-- Dashboard Filters -->
+@* <div class="d-sm-inline-flex align-items-center float-md-right mb-md-0 mb-3">
+    <div class="col-sm-6">
+        <div class="d-flex align-items-center">
+            <label class="m-0 pr-2">From</label>
+            <input type="date" class="form-control w-100" />
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="d-flex align-items-center">
+            <label class="m-0 pr-2">To</label>
+            <input type="date" class="form-control w-100" />
+        </div>
+    </div>
+</div> *@
+<div class="">
+    <section>
+        <div class="row">
+            <div class="col-xl-3 col-sm-6">
+                <div class="info-box light-red">
+                    <span class="info-box-icon bg-danger"><i class="fas fa-award"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Direct Bonus</span>
+                        <span class="info-box-number">$@Model.DiectBonus</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+                <div class="info-box light-yellow">
+                    <span class="info-box-icon bg-danger"><i class="fas fa-award"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Network Bonus</span>
+                        <span class="info-box-number">$@Model.CommunityBonus</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+                <div class="info-box light-blue">
+                    <span class="info-box-icon bg-info"><i class="fas fa-address-card"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Spot License</span>
+                        <span class="info-box-number">@Model.Subscription</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+                <div class="info-box light-purple">
+                    <span class="info-box-icon"><i class="fas fa-solid fa-shapes"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Direct Referrals</span>
+                        <span class="info-box-number">@Model.DirectReferrals</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4 col-sm-6">
+                <div class="info-box light-green">
+                    <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Left Network Users</span>
+                        <span class="info-box-number">@Model.TotalLeftNetworkUsers</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6">
+                <div class="info-box light-orange">
+                    <span class="info-box-icon"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Right Network User</span>
+                        <span class="info-box-number">@Model.TotalRightNetworkUser</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-12">
+                <div class="info-box light-gradient align-items-center">
+                    <img class="rounded-pill" src="~/images/timer.gif" width="60" />
+                    <div class="info-box-content">
+                        <span class="info-box-text">Next Bonus Payout:</span> <span class="info-box-number" id="digitalClock"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-9">
+                <div class="row">
+                    @* <div class="col-md-6">
+                    <div class="card card-primary card-outline">
+                    <div class="card-header">
+                    <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Network Sales
+                    </h3>
+
+                    <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                    </button>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                    <canvas id="myChart" style="width:100%;"></canvas>
+                    </div>
+                    </div>
+                    </div> *@
+                    <div class="col-md-12">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fab fa-bitcoin"></i>
+                                    BTC Price Chart
+                                </h3>
+
+                                @* <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                                </button>
+                                </div> *@
+                            </div>
+                            <div class="card-body">
+                                <div class="btc-filter">
+                                    <div id="btcPrice" class="mr-auto"></div>
+                                    @* <button id="interval1" class="btn btn-xs text-bold">1 Day</button> *@
+                                    <button id="interval7" class="btn btn-xs text-bold">7 Days</button>
+                                    <button id="interval15" class="btn btn-xs text-bold">15 Days</button>
+                                    <button id="interval30" class="btn btn-xs text-bold btn-primary">30 Days</button>
+                                </div>
+                                <canvas id="bitcoinChart" class="w-100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-solid fa-cube"></i>
+                                    My Spot License
+                                </h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="s-card l-bg-blue-dark">
+                                    <div class="card-statistic-3 p-4">
+                                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                                        <div class="mb-4">
+                                            <h5 class="card-title mb-0">Spot License</h5>
+                                        </div>
+                                        <div class="row align-items-center mb-2 d-flex">
+                                            <div class="col-8">
+                                                <h2 class="d-flex align-items-center mb-0">
+                                                    None
+                                                </h2>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <button class="d-inline-flex btn align-items-center text-white">Purchase <i class="fa fa-arrow-up ml-2"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="progress mt-1" data-height="8" style="height: 8px;">
+                                            <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* <div class="col-lg-4">
+                                <div class="s-card l-bg-green-dark">
+                                <div class="card-statistic-3 p-4">
+                                <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                                <div class="mb-4">
+                                <h5 class="card-title mb-0">Per Year</h5>
+                                </div>
+                                <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                <h2 class="d-flex align-items-center mb-0">
+                                $300
+                                </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                <span class="d-inline-flex align-items-center">10% <i class="fa fa-arrow-up ml-2"></i></span>
+                                </div>
+                                </div>
+                                <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                                </div>
+                                </div>
+                                </div>
+                                </div> *@
+                                @* <div class="col-lg-4">
+                                <div class="s-card l-bg-orange-dark">
+                                <div class="card-statistic-3 p-4">
+                                <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                                <div class="mb-4">
+                                <h5 class="card-title mb-0">Per Year</h5>
+                                </div>
+                                <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                <h2 class="d-flex align-items-center mb-0">
+                                $1000
+                                </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                <span class="d-inline-flex align-items-center">2.5% <i class="fa fa-arrow-up ml-2"></i></span>
+                                </div>
+                                </div>
+                                <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                                </div>
+                                </div>
+                                </div>
+                                </div> *@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-solid fa-network-wired"></i>
+                                    Network Stats
+                                </h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Volume</th>
+                                            <th>Left</th>
+                                            <th>Right</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Rank Volume</td>
+                                            <td>@Model.RankVolumeleft</td>
+                                            <td>@Model.RankVolumeRight</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Network Volume</td>
+                                            <td>@Model.NetworkVolumeLeft</td>
+                                            <td>@Model.NetworkVolumeRight</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Recent Transactions
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card overflow-auto">
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction Code</th>
+                                        <th>Username</th>
+                                        <th>Destination</th>
+                                        <th>Amount</th>
+                                        <th>Transaction Type</th>
+                                        <th>Transaction Date/Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>TRNS_032399</td>
+                                        <td>user_123</td>
+                                        <td>None</td>
+                                        <td>$0</td>
+                                        <td>Deposit</td>
+                                        <td>09-02-2024 | 12:33:56</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-solid fa-wallet"></i>
+                            Network Bonus Wallet
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="wallet-box d-flex align-items-center" style="gap: 20px; ">
+                            <img src="~/images/ewallet.gif" width="80" class="img-fluid m-auto d-block rounded-pill" />
+                            <div class="flex-grow-1"><h2 class="m-0">0.00</h2><span class="d-inline-flex align-items-center"><img src="/images/usdt.png" alt="USDT" width="20">&nbsp; USDT</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-primary card-outline abs-bg text-white">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-solid fa-award"></i>
+                            Ranks
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <section class="main-container-s">
+                            <div class="main-s">
+                                <div class="big-circle">
+                                    <div class="icon-block">
+                                        <i class="fab fa-brands fa-bitcoin"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-link"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-globe"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-network-wired"></i>
+                                    </div>
+                                </div>
+                                <div class="circle-s">
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-percent"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-wallet"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-solid fa-user"></i>
+                                    </div>
+                                    <div class="icon-block">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                </div>
+                                <div class="center-logo">
+                                    <div class="rank-badge"><img src="~/images/ranks/Promoter-min.png" class="img-fluid m-auto d-block" /></div>
+                                </div>
+                            </div>
+                        </section>
+                        <label class="d-block py-2 text-center">Current Rank: None</label>
+                        @* <div class="rankbox text-center">
+                        <label>Your Current Rank: None</label>
+                        <div class="rank-badge"><img src="~/images/ranks/Promoter-min.png" class="img-fluid m-auto d-block" /></div>
+                        </div> *@
+                    </div>
+                </div>
+                <div class="card card-primary card-outline mb-3">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-solid fa-link"></i>
+                            Referral Link
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="reflink">
+                            <div class="linkbox">
+                                <span><a href="https://iconx.network/identity/account/register" target="_blank">https://iconx.network/identity/account/register</a></span>
+                                <span>
+                                    <i class="fas fa-solid fa-copy" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="reflink">
+                            <label>Left</label>
+                            <div class="linkbox">
+                                <span>@Model.ReferralLinkLeft</span>
+                                <span>
+                                    <i class="fas fa-solid fa-copy text-cyan" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="reflink">
+                            <label>Right</label>
+                            <div class="linkbox">
+                                <span>@Model.ReferralLinkLeft</span>
+                                <span>
+                                    <i class="fas fa-solid fa-copy text-orange" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="reflink">
+                            <label>Alternate</label>
+                            <div class="linkbox">
+                                <span>@Model.ReferralLinkAlternate</span>
+                                <span>
+                                    <i class="fas fa-solid fa-copy text-danger" onclick="copyToClipboard(this)" data-toggle="tooltip" data-original-title="Copy to clipboard"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+<script>
+
+
+
+
+
+
+
+
+
+
+    setInterval(function () {
+        function gmtTimeDifferenceUntilNextMonday() {
+            // Create a new date object for the current date and time
+            const now = new Date();
+
+            // Calculate the current day of the week (0 is Sunday, 1 is Monday, ..., 6 is Saturday)
+            const currentDay = now.getUTCDay();
+
+            // Calculate the difference in days until the next Monday
+            const daysUntilMonday = (currentDay === 1 ? 7 : 1 + (1 - currentDay + 7) % 7) - 1;
+
+            // Calculate the next Monday's date and time in UTC
+            const nextMonday = new Date(now);
+            nextMonday.setUTCHours(0, 0, 0, 0);
+            nextMonday.setUTCDate(now.getUTCDate() + daysUntilMonday);
+
+            // Calculate the time difference in milliseconds
+            const timeDifference = nextMonday - now;
+
+            // Convert the time difference to hours and minutes
+            const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+            const minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+
+            //const secondsUntilMonday = daysUntilMonday * 24 * 60 * 60;
+
+            const secondsDifference = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Display the result in the specified div
+
+            // Get the current date and time in GMT
+            var currentGMT = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+
+            // Calculate the end of the day in GMT (23:59:59)
+            var endOfDay = new Date(currentGMT);
+            endOfDay.setUTCHours(23, 59, 59, 0);
+
+            // Calculate the remaining time until the end of the day
+            var timeDiff = endOfDay - currentGMT;
+            var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+
+            document.getElementById('digitalClock').textContent = daysUntilMonday + " Days and " + hours + "hrs : " + minutesDifference + "min : " + secondsDifference + "sec" + " left ";
+            //document.getElementById('result').innerText = "GMT Time Difference until next Monday: ${hoursDifference}  hours and  ${minutesDifference}  minutes";
+        }
+
+        // Call the function when the page loads
+        gmtTimeDifferenceUntilNextMonday();
+    }, 1000);
+
+    // Copy Referral Code
+    function copyToClipboard(elem) {
+        var textToCopy = elem.parentNode.previousElementSibling.innerText;
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(textToCopy).then(function () {
+                showTooltip(elem, 'Copied!');
+            }).catch(function (error) {
+                console.error('Error copying text to clipboard', error);
+                alert("Failed to copy to clipboard");
+            });
+        } else {
+            // Fallback for browsers where clipboard API is not available
+            try {
+                var tempInput = document.createElement("input");
+                document.body.appendChild(tempInput);
+                tempInput.value = textToCopy;
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+
+                showTooltip(elem, 'Copied!');
+            } catch (error) {
+                console.error('Fallback error copying text to clipboard', error);
+                alert("Failed to copy to clipboard");
+            }
+        }
+    }
+
+    function showTooltip(elem, message) {
+        $(elem).attr('data-original-title', message).tooltip('show');
+        setTimeout(function () {
+            $(elem).tooltip('hide');
+            // Reset tooltip message if needed
+            setTimeout(function () {
+                $(elem).attr('data-original-title', 'Copy to Clipboard');
+            }, 1000);
+        }, 2000);
+    }
+</script>

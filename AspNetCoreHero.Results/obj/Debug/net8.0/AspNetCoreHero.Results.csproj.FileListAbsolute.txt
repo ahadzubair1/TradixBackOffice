@@ -1,0 +1,14 @@
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\bin\Debug\net8.0\AspNetCoreHero.Results.deps.json
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\bin\Debug\net8.0\AspNetCoreHero.Results.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\bin\Debug\net8.0\AspNetCoreHero.Results.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\bin\Debug\net8.0\AspNetCoreHero.Results.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.csproj.AssemblyReference.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.AssemblyInfoInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.AssemblyInfo.cs
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.csproj.CoreCompileInputs.cache
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\refint\AspNetCoreHero.Results.dll
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.xml
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\AspNetCoreHero.Results.pdb
+D:\PROJECTS\TradixBackOffice\AspNetCoreHero.Results\obj\Debug\net8.0\ref\AspNetCoreHero.Results.dll

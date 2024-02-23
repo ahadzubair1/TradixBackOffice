@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "N-Membership",
+    "Code": "N",
+    "Description": "This is N-Membership Type",
+    "HasTiers": true,
+    "HasCollections": true,
+    "ImageUri": ""
+  },
+  {
+    "Name": "V-Membership",
+    "Code": "V",
+    "Description": "This is V-Membership Type",
+    "HasTiers": true,
+    "HasCollections": true,
+    "ImageUri": ""
+  }
+]

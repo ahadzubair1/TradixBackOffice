@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "c7clvig5Z/nWoM0MLSZ9orhLEb2JiAf2e8UW4IL+O3vwHbwacDOqNzsWvq1gQJm/s8h4ZWBakKmw1L57Ye+Adg==",
+  "success": true,
+  "projectFilePath": "D:\\PROJECTS\\TradixBackOffice\\AspNetCoreHero.Results\\AspNetCoreHero.Results.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ahad_\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

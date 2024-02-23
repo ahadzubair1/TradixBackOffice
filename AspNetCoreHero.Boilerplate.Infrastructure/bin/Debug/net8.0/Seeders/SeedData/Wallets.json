@@ -1,0 +1,56 @@
+[
+  {
+    "Name": "Bonus Wallet",
+    "Code": "AW",
+    "Description": "This is Bonus Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": true,
+    "AllowPurchase": true
+  },
+  {
+    "Name": "Credit Wallet",
+    "Code": "CW",
+    "Description": "This is Credit Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": true,
+    "AllowPurchase": true
+  },
+  {
+    "Name": "Passive Wallet",
+    "Code": "PW",
+    "Description": "This is Passive Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": true,
+    "AllowPurchase": false
+  },
+  {
+    "Name": "VWards",
+    "Code": "VW",
+    "Description": "This is VWards Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": false,
+    "AllowPurchase": false
+  },
+  {
+    "Name": "VWards Classic",
+    "Code": "VWC",
+    "Description": "This is VWards Classic Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": false,
+    "AllowPurchase": false
+  },
+  {
+    "Name": "Gift Wallets",
+    "Code": "GW",
+    "Description": "This is Gift Wallet",
+    "AllowWithdrawal": false,
+    "AllowDeposit": false,
+    "AllowTransfer": false,
+    "AllowPurchase": false
+  }
+]

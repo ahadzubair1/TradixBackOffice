@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = localizer["Transactions"];
+    ViewData["Caption"] = localizer[""];
+}
+<div class="card mt-4">
+    @*  <div class="col-sm-12" style="padding:20px">
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Transactions.Create)).Result.Succeeded)
+    {
+    <a onclick="jQueryModalGet('/app/transaction/OnGetCreateOrEdit','Create Brand')" class="btn bg-success">
+    <i class="fa fa-plus-square"></i> Create
+    </a>
+    }
+    </div> *@
+
+    @* <div class="card card-tabs">
+    <div class="card-header p-0 pt-1">
+    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+    <li class="nav-item">
+    <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Subscriptions</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Other Transactions</a>
+    </li>
+    </ul>
+    </div>
+    <div class="card-body">
+    <div class="tab-content" id="custom-tabs-two-tabContent">
+    <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+    <div id="viewAll" class="card-body table-responsive"></div>
+    </div>
+    <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+    Nothing to show
+    </div>
+    </div>
+    </div>
+
+    </div> *@
+
+    <div class="card card-primary card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active border-0" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true" style="border-top-left-radius: 1rem;">Subscriptions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link border-0" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Other Transactions</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                    <div id="viewAll" class="card-body table-responsive"></div>
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                    <div class="no-data d-flex align-items-center justify-content-center flex-column">
+                        <img src="/images/nodata-alpha.gif" width="100">
+                        Nothing Found...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#transactionTable").DataTable();
+            loadData();
+            $('#reload').on('click', function () {
+                loadData();
+            });
+        });
+        function loadData() {
+            $('#viewAll').load('/account/transactions/LoadAll');
+        }
+    </script>
+}

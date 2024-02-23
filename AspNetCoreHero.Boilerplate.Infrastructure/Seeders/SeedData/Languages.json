@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "English",
+    "Alpha2Code": "en",
+    "Alpha3Code": null
+  },
+  {
+    "Name": "Spanish",
+    "Alpha2Code": "es",
+    "Alpha3Code": null
+  },
+  {
+    "Name": "French",
+    "Alpha2Code": "fr",
+    "Alpha3Code": null
+  },
+  {
+    "Name": "Thai",
+    "Alpha2Code": "th",
+    "Alpha3Code": null
+  },
+  {
+    "Name": "Vietnamese",
+    "Alpha2Code": "vi",
+    "Alpha3Code": null
+  }
+]

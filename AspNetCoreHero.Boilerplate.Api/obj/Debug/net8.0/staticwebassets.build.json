@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "GCJIdjDZHZv0PwE68G1cFtBCPTKJhThQANZO96sdF10=",
+  "Source": "AspNetCoreHero.Boilerplate.Api",
+  "BasePath": "_content/AspNetCoreHero.Boilerplate.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

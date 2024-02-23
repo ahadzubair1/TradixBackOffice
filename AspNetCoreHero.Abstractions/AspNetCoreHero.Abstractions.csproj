@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Authors>Mukesh Murugan</Authors>
+    <Company>aspnetcorehero</Company>
+    <Product>AspNetCoreHero.Abstractions</Product>
+    <Description>Collection of Abstract Classes to improve code reusability within projects.</Description>
+    <Copyright>2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0.0</Version>
+    <PackageIcon>Logo_600x600.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/aspnetcorehero/Abstractions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aspnetcorehero/Abstractions</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="NewId" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Low",
+    "Code": "Low",
+    "Description": "Country Risk Type"
+  },
+  {
+    "Name": "Medium",
+    "Code": "Medium",
+    "Description": "Country Risk Type"
+  },
+  {
+    "Name": "High",
+    "Code": "High",
+    "Description": "Country Risk Type"
+  }
+]
